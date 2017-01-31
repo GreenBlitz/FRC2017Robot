@@ -6,13 +6,34 @@ package org.usfirst.frc.team4590.robot;
  * floating around.
  */
 public class RobotMap {
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
+
+	/**
+	 *Solenoid Ports; for more ports see {@link RobotMap} 
+	 */
+    public static final int //solenoids
+    						DOUBLE_SOL_1_FORE 	= 0,
+    						DOUBLE_SOL_1_REV 	= 0,
+    						DOUBLE_SOL_2_FORE 	= 0,
+    						DOUBLE_SOL_2_REV 	= 0;
+    /**
+     * Encoders Ports; for more ports see {@link RobotMap}
+     */
+    public static final int // encoders
+    						CHASSIS_ENCODER_LEFT_A = 0,
+    						CHASSIS_ENCODER_LEFT_B = 0,
+    						
+    						CHASSIS_ENCODER_RIGHT_A = 0,
+    						CHASSIS_ENCODER_RIGHT_B = 0,
     
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static int rangefinderPort = 1;
-    // public static int rangefinderModule = 1;
+    						CHASSIS_TALON_RIGHT_REAR = 0,
+    						CHASSIS_TALON_RIGHT_FRONT = 0,
+    						CHASSIS_TALON_RIGHT_MIDLE = 0,
+    						CHASSIS_TALON_LEFT_REAR = 0,
+    						CHASSIS_TALON_LEFT_FRONT = 0,
+    						CHASSIS_TALON_LEFT_MIDLE = 0;
+    /**						
+     * Gyros Ports; for more ports see {@link RobotMap}
+     */
+    public static final int // gyros
+    						CHASSIS_GYRO = 0;
 }
