@@ -3,23 +3,23 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 
-import org.usfirst.frc.team4590.utils.SmartJoystick;
 import org.usfirst.frc.team4590.utils.ThreeCimShifter;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
 
-public class Chassis extends Subsystem {
-	
+public class Chassis extends PIDSubsystem {
+	private static final double kP = 0,kI = 0,kD = 0;
 	private Encoder encLeft, encRight;
 	private AHRS ahrs;
 	private ThreeCimShifter drive;
 	private static Chassis instance;
 	private Chassis(){
+		super("Chassis", kP,kI,kD);
 		encLeft 	= new Encoder(CHASSIS_ENCODER_LEFT_A, CHASSIS_ENCODER_LEFT_B);
 		encRight 	= new Encoder(CHASSIS_ENCODER_RIGHT_A, CHASSIS_ENCODER_RIGHT_B);
 		ahrs = new AHRS(SPI.Port.kMXP);
@@ -95,6 +95,16 @@ public class Chassis extends Subsystem {
 	}
 	@Override
 	protected void initDefaultCommand() {
+		
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return getDistance();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
 		
 	}
     

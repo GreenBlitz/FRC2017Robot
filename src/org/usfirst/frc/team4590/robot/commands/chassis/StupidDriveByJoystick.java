@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TankDriveByJoystick extends Command {
-	
-    public TankDriveByJoystick() {
+public class StupidDriveByJoystick extends Command {
+	//kill me
+	char direction;
+    public StupidDriveByJoystick(char direction) {
         // Use requires() here to declare subsystem dependencies
         requires(Chassis.getInstance());
+        this.direction = direction;
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +23,13 @@ public class TankDriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Chassis.getInstance().tankDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightY());
+    	if (direction == 'L'){
+    		Chassis.getInstance().arcadeDrive(OI.getInstance().getMainLeftY(), -1);
+    	}else if (direction == 'R'){
+    		Chassis.getInstance().arcadeDrive(OI.getInstance().getMainLeftY(), 1);
+    	}else{
+    		System.out.println("Stupid thingy: something went wrong");
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

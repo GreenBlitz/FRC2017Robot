@@ -1,18 +1,17 @@
-package org.usfirst.frc.team4590.robot.commands.chassis;
+package org.usfirst.frc.team4590.robot.commands.fuelCollector;
 
-import org.usfirst.frc.team4590.robot.OI;
-import org.usfirst.frc.team4590.robot.subsystems.Chassis;
+import org.usfirst.frc.team4590.robot.subsystems.FuelCollector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TankDriveByJoystick extends Command {
-	
-    public TankDriveByJoystick() {
+public class CollectFuel extends Command {
+
+    public CollectFuel() {
         // Use requires() here to declare subsystem dependencies
-        requires(Chassis.getInstance());
+        requires(FuelCollector.getInstance());
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +20,7 @@ public class TankDriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Chassis.getInstance().tankDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightY());
+    	FuelCollector.getInstance().setPower(1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

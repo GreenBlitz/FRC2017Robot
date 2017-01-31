@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
-
-import org.usfirst.frc.team4590.robot.RobotMap;
 /**
  *
  */

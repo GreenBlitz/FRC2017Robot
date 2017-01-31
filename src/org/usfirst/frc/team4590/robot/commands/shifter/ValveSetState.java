@@ -1,32 +1,32 @@
-package org.usfirst.frc.team4590.robot.commands.chassis;
+package org.usfirst.frc.team4590.robot.commands.shifter;
 
-import org.usfirst.frc.team4590.robot.OI;
-import org.usfirst.frc.team4590.robot.subsystems.Chassis;
+import org.usfirst.frc.team4590.robot.subsystems.Shifts;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TankDriveByJoystick extends Command {
-	
-    public TankDriveByJoystick() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Chassis.getInstance());
-    }
+public class ValveSetState extends Command {
 
+    public ValveSetState() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Shifts.getInstance());
+    }	
+        
     // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Chassis.getInstance().tankDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightY());
+    	Shifts.getInstance().toggleState();
+    	// already called in constuctor
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return true;
     }
 
     // Called once after isFinished returns true
@@ -38,4 +38,5 @@ public class TankDriveByJoystick extends Command {
     protected void interrupted() {
     	end();
     }
+    
 }

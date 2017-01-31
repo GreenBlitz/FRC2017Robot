@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TankDriveByJoystick extends Command {
-	
-    public TankDriveByJoystick() {
+public class ArcadeDriveByJoystick extends Command {
+
+    public ArcadeDriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
         requires(Chassis.getInstance());
     }
@@ -21,7 +21,7 @@ public class TankDriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Chassis.getInstance().tankDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightY());
+    	Chassis.getInstance().arcadeDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainLeftX());
     }
 
     // Make this return true when this Command no longer needs to run execute()
