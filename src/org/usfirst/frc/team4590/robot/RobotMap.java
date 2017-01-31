@@ -24,16 +24,50 @@ public class RobotMap {
     						
     						CHASSIS_ENCODER_RIGHT_A = 0,
     						CHASSIS_ENCODER_RIGHT_B = 0,
+    						
+    						SHOOTER_ENCODER_A = 0,
+    						SHOOTER_ENCODER_B = 0,
+    						
+    						FEEDER_ENCODER_A = 0,
+    						FEEDER_ENCODER_B = 0;
     
+    /**
+     * Motor Ports; for more ports see {@link RobotMap}
+     */
+    public static final int // motors
     						CHASSIS_TALON_RIGHT_REAR = 0,
     						CHASSIS_TALON_RIGHT_FRONT = 0,
     						CHASSIS_TALON_RIGHT_MIDLE = 0,
     						CHASSIS_TALON_LEFT_REAR = 0,
     						CHASSIS_TALON_LEFT_FRONT = 0,
-    						CHASSIS_TALON_LEFT_MIDLE = 0;
+    						CHASSIS_TALON_LEFT_MIDLE = 0,
+    						
+    						GEARS_TALON = 0,
+    
+    						SHOOTER_TALON_A = 0,
+    						SHOOTER_TALON_B = 0,
+    						
+    						FUEL_COLLECTOR_TALON = 0,
+    						
+    						CLIMBER_TALON = 0,
+    						
+    						FEEDER_TALON = 0;
+    
     /**						
      * Gyros Ports; for more ports see {@link RobotMap}
      */
     public static final int // gyros
     						CHASSIS_GYRO = 0;
+    
+    /**
+     * Micro Switches Ports; for more ports see {@link RobotMap}
+     */
+    public static final int // motors
+    						GEARS_SWITCH_A = 0,
+    						GEARS_SWITCH_B = 0;
+    /**						
+     * Joystick Ports; for more ports see {@link RobotMap}
+     */
+    public static final int
+    						JOYSTICK_MAIN = 0;
 }

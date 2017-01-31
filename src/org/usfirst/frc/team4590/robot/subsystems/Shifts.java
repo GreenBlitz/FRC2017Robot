@@ -9,6 +9,7 @@ import static org.usfirst.frc.team4590.robot.RobotMap.*;
 public class Shifts extends Subsystem {
 	private DoubleSolenoid 	doubleSol1, 
 							doubleSol2 ;
+	private static Shifts instance;
 	
 	public static enum ShifterState{
 		SPEED(DoubleSolenoid.Value.kReverse),
@@ -41,7 +42,7 @@ public class Shifts extends Subsystem {
 		return instance;
 	}
 	
-	private static Shifts instance;
+
 	
 	public void setState(ShifterState state){
 		doubleSol1.set(state.getValue());
