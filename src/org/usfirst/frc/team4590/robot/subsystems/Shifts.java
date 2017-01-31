@@ -2,6 +2,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 /**
  *
@@ -57,6 +59,9 @@ public class Shifts extends Subsystem {
 		setState(ShifterState.values()[1 - doubleSol1.get().ordinal()]);
 	}
 	
+	public void status(){
+		SmartDashboard.putString("SHIFTS::Gear", (doubleSol1.get() == DoubleSolenoid.Value.kForward) ? "SPEED" : "POWER");
+	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

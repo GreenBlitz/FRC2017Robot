@@ -1,15 +1,18 @@
 package org.usfirst.frc.team4590.robot.commands.chassis;
 
+import org.usfirst.frc.team4590.robot.OI;
+import org.usfirst.frc.team4590.robot.subsystems.Chassis;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class TankDriveByJoystick extends Command {
-
+	
     public TankDriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Chassis.getInstance());
     }
 
     // Called just before this Command runs the first time
@@ -18,6 +21,7 @@ public class TankDriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Chassis.getInstance().tankDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

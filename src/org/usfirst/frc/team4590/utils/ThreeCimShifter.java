@@ -66,4 +66,8 @@ public class ThreeCimShifter {
 	public double getPowerRight() {
 		return m_rightGetter.get();
 	}
+	
+	public double getPower(){
+		return (getPowerRight() + getPowerLeft())/2;
+	}
 }

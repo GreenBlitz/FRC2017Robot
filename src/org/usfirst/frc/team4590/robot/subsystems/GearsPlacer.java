@@ -3,6 +3,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 /**
  *
@@ -42,6 +44,11 @@ public class GearsPlacer extends Subsystem {
 		talon.set(speed);
 	}
 	
+	public void status(){
+		SmartDashboard.putBoolean("GEARS PLACER::Switch1 state", switch1.get());
+		SmartDashboard.putBoolean("GEARS PLACER::Switch2 state", switch2.get());
+		SmartDashboard.putNumber("GEARS PLACER::Power", talon.get());
+	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

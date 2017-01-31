@@ -2,6 +2,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 /**
  *
@@ -22,9 +24,12 @@ public Climber(){
 	public static final Climber getInstance(){
 		return instance;
 	}
-public void setPower(double power){
-	talon1.set(power);
-}
+	public void setPower(double power){
+		talon1.set(power);
+	}
+	public void status(){
+		SmartDashboard.putNumber("CLIMBER::Power", talon1.get());
+	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

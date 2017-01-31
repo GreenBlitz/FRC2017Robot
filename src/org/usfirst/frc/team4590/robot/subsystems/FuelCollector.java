@@ -2,6 +2,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 /**
  *
@@ -26,7 +28,9 @@ public class FuelCollector extends Subsystem {
 	public void setPower(double power){
 		talon1.set(power);
 	}
-
+	public void status(){
+		SmartDashboard.putNumber("FUEL COLLECTOR::Power", talon1.get());
+	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

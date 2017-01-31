@@ -3,6 +3,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
@@ -37,7 +39,6 @@ public class Shooter extends PIDSubsystem {
 	public static final Shooter getInstance(){
 		return instance;
 	}
-	
 
 	
 	//getters for sensors
@@ -52,6 +53,11 @@ public class Shooter extends PIDSubsystem {
 	public void setPower(double power){
 		talon1.set(power);
 		talon2.set(power);
+	}
+	
+	public void status(){
+		SmartDashboard.putNumber("SHOOTER::Power", getSpeed());
+		SmartDashboard.putNumber("SHOOTER::Distance", getDistance());
 	}
 	
     public void initDefaultCommand() {

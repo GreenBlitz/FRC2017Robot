@@ -3,11 +3,14 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.*;
 
+import org.usfirst.frc.team4590.utils.SmartJoystick;
 import org.usfirst.frc.team4590.utils.ThreeCimShifter;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.kauailabs.navx.frc.AHRS;
 
 public class Chassis extends Subsystem {
@@ -30,8 +33,6 @@ public class Chassis extends Subsystem {
 	public static final Chassis getInstance(){
 		return instance;
 	}
-	
-
 	
 	//getters for sensors
 	public double getDistance(){
@@ -78,6 +79,20 @@ public class Chassis extends Subsystem {
 		drive.arcadeDrive(forward, side);
 	}
 	
+	//displays status
+	public void status(){
+		SmartDashboard.putNumber("CHASSIS::Power", drive.getPower());
+		SmartDashboard.putNumber("CHASSIS::Speed", getSpeed());
+		SmartDashboard.putNumber("CHASSIS::Angle", getAngle());
+		SmartDashboard.putNumber("CHASSIS::Distance", getDistance());
+		/* for debugging purposes
+		 * 
+		SmartDashboard.putNumber("CHASSIS::Left encoder", encLeft.getDistance());
+		SmartDashboard.putNumber("CHASSIS::Right encoder", encRight.getDistance());
+		SmartDashboard.putNumber("CHASSIS::Left CIM Power", drive.getPowerLeft());
+		SmartDashboard.putNumber("CHASSIS::Right CIM Power", drive.getPowerRight());
+		*/
+	}
 	@Override
 	protected void initDefaultCommand() {
 		
