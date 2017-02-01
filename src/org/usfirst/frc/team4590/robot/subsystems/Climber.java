@@ -1,22 +1,24 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
-import edu.wpi.first.wpilibj.TalonSRX;
+
+import static org.usfirst.frc.team4590.robot.RobotMap.CLIMBER_TALON;
+
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import static org.usfirst.frc.team4590.robot.RobotMap.*;
 /**
  *
  */
 public class Climber extends Subsystem {
-	TalonSRX talon1;
+	CANTalon talon1;
 	private static Climber instance;
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-public Climber(){
-	talon1 = new TalonSRX(CLIMBER_TALON);
-}
+	private Climber(){
+		talon1 = new CANTalon(CLIMBER_TALON);
+	}
 	public static final void init(){
 		instance = new Climber();
 	}

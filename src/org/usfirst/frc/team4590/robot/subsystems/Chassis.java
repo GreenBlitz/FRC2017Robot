@@ -1,16 +1,19 @@
 
 package org.usfirst.frc.team4590.robot.subsystems;
 
-import static org.usfirst.frc.team4590.robot.RobotMap.*;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_LEFT_A;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_LEFT_B;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_RIGHT_A;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_RIGHT_B;
 
 import org.usfirst.frc.team4590.utils.ThreeCimShifter;
+
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.kauailabs.navx.frc.AHRS;
 
 public class Chassis extends PIDSubsystem {
 	private static final double kP = 0,kI = 0,kD = 0;

@@ -1,22 +1,25 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
+import static org.usfirst.frc.team4590.robot.RobotMap.FEEDER_ENCODER_A;
+import static org.usfirst.frc.team4590.robot.RobotMap.FEEDER_ENCODER_B;
+import static org.usfirst.frc.team4590.robot.RobotMap.FEEDER_TALON;
+
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import static org.usfirst.frc.team4590.robot.RobotMap.*;
 /**
  *
  */
 public class Feeder extends Subsystem {
-    TalonSRX talon1;
+    CANTalon talon1;
     Encoder enc;
 	private static Feeder instance;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	public Feeder(){
-		talon1 = new TalonSRX(FEEDER_TALON);
+	private Feeder(){
+		talon1 = new CANTalon(FEEDER_TALON);
 		enc = new Encoder(FEEDER_ENCODER_A,FEEDER_ENCODER_B);
 	}
 	public static final void init(){

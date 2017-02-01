@@ -17,10 +17,11 @@ import org.usfirst.frc.team4590.robot.commands.fuelCollector.CollectFuel;
 public class OI {
 	private SmartJoystick mainJS;
 	private static OI instance;
+	/*
 	private JoystickButton mainA = mainJS.getButton(JoystickBinding.A);
 	private JoystickButton mainB = mainJS.getButton(JoystickBinding.B);
 	private JoystickButton mainX = mainJS.getButton(JoystickBinding.X);
-	
+	*/
 	/* TODO Shooter , 
 	 * A = Activate Climber
 	 * B = Collect Fuel
@@ -29,8 +30,10 @@ public class OI {
 	 */
 	private OI(){
 		mainJS = new SmartJoystick(JOYSTICK_MAIN);
+		/*
 		mainA.whenPressed(new Climb());
 		mainB.whenPressed(new CollectFuel());
+		*/
 	}
 	
 	public static final void init(){
@@ -56,6 +59,9 @@ public class OI {
 	public double getMainRightX(){
 		return mainJS.getAxisValue(JoystickAxis.RIGHT_X);
 	}
+	
+
+	
 
 }
 

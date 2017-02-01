@@ -1,40 +1,31 @@
-package org.usfirst.frc.team4590.robot.commands.chassis;
+package org.usfirst.frc.team4590.robot.commands.shooter;
 
-import org.usfirst.frc.team4590.robot.OI;
-import org.usfirst.frc.team4590.robot.subsystems.Chassis;
+import org.usfirst.frc.team4590.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class StupidDriveByJoystick extends Command {
-	//kill me (Ohad) - OKAY! (Guyde)
-
+public class ShooterSetPower extends Command {
 	
-	
-    public StupidDriveByJoystick() {
+	private double speed, currentSpeed, accelCounter;
+    public ShooterSetPower(double speed) {
         // Use requires() here to declare subsystem dependencies
-        requires(Chassis.getInstance());
+        requires(Shooter.getInstance());
+        this.speed = speed;
+        this.currentSpeed = speed/10;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	accelCounter = 1;
+    	Shooter.getInstance().setSetpoint(speed);
+    	Shooter.getInstance().enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double powerL = OI.getInstance().getMainLeftY();
-    	double powerR = OI.getInstance().getMainLeftY();
-    /*	switch (direction){
-    	case LEFT:
-    		powerL /= 2;
-    	case RIGHT:
-    		powerR /= 2;
-    	}
-    	*/
-    	Chassis.getInstance().arcadeDrive(OI.getInstance().getMainLeftY(), 1);
-    		System.out.println("Stupid (=Ohad (From Guy <3)): something went wrong");
     	
     }
 
@@ -50,6 +41,5 @@ public class StupidDriveByJoystick extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

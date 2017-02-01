@@ -1,12 +1,17 @@
 package org.usfirst.frc.team4590.utils;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_TALON_LEFT_FRONT;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_TALON_LEFT_MIDLE;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_TALON_LEFT_REAR;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_TALON_RIGHT_FRONT;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_TALON_RIGHT_MIDLE;
+import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_TALON_RIGHT_REAR;
+
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.TalonSRX;
-import edu.wpi.first.wpilibj.VictorSP;
-import static org.usfirst.frc.team4590.robot.RobotMap.*;
 public class ThreeCimShifter {
 
 	
@@ -20,16 +25,16 @@ public class ThreeCimShifter {
 	private static final boolean RIGHT_INVERTED = false;
 
 	//GUY: DO NOT CHANGE
-	public TalonSRX leftFront, leftRear, rightFront, rightRear, leftMiddle, rightMiddle;
+	public CANTalon leftFront, leftRear, rightFront, rightRear, leftMiddle, rightMiddle;
 	
 	public ThreeCimShifter() {
-		leftFront = new TalonSRX(CHASSIS_TALON_LEFT_FRONT);
-		leftRear = new TalonSRX(CHASSIS_TALON_LEFT_REAR);
-		leftMiddle = new TalonSRX(CHASSIS_TALON_LEFT_MIDLE);
+		leftFront = new CANTalon(CHASSIS_TALON_LEFT_FRONT);
+		leftRear = new CANTalon(CHASSIS_TALON_LEFT_REAR);
+		leftMiddle = new CANTalon(CHASSIS_TALON_LEFT_MIDLE);
 		
-		rightFront = new TalonSRX(CHASSIS_TALON_RIGHT_FRONT);
-		rightRear = new TalonSRX(CHASSIS_TALON_RIGHT_REAR);
-		rightMiddle = new TalonSRX(CHASSIS_TALON_RIGHT_MIDLE);
+		rightFront = new CANTalon(CHASSIS_TALON_RIGHT_FRONT);
+		rightRear = new CANTalon(CHASSIS_TALON_RIGHT_REAR);
+		rightMiddle = new CANTalon(CHASSIS_TALON_RIGHT_MIDLE);
 		
 		m_robotDrive = new RobotDrive(leftFront, m_leftGetter = leftRear, rightFront, m_rightGetter = rightRear);
 
