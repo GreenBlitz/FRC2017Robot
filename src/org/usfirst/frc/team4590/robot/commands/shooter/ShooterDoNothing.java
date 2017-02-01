@@ -7,26 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShooterSetPower extends Command {
-	
-	private double speed, currentSpeed, accelCounter;
-    public ShooterSetPower(double speed) {
+public class ShooterDoNothing extends Command {
+
+    public ShooterDoNothing() {
         // Use requires() here to declare subsystem dependencies
-        requires(Shooter.getInstance());
-        this.speed = speed;
-        this.currentSpeed = speed/10;
+       requires(Shooter.getInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	accelCounter = 1;
-    	Shooter.getInstance().setSetpoint(speed);
-    	Shooter.getInstance().enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	Shooter.getInstance().setPower(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -42,4 +36,5 @@ public class ShooterSetPower extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+    
 }

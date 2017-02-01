@@ -3,6 +3,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.CLIMBER_TALON;
 
+import org.usfirst.frc.team4590.robot.commands.climber.ClimberDoNothing;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,7 +36,7 @@ public class Climber extends Subsystem {
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ClimberDoNothing());
     }
 }
 
