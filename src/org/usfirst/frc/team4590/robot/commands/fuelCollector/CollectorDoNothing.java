@@ -1,19 +1,17 @@
-package org.usfirst.frc.team4590.robot.commands.chassis;
+package org.usfirst.frc.team4590.robot.commands.fuelCollector;
 
-import org.usfirst.frc.team4590.robot.OI;
-import org.usfirst.frc.team4590.robot.subsystems.Chassis;
+import org.usfirst.frc.team4590.robot.subsystems.FuelCollector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Drives in arcade mode: Y axis controls the power forward while the X axis
- * controls the rotation.
+ * Do you really need a fucking explanation?
  */
-public class ArcadeDriveByJoystick extends Command {
+public class CollectorDoNothing extends Command {
 
-	public ArcadeDriveByJoystick() {
+	public CollectorDoNothing() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Chassis.getInstance());
+		requires(FuelCollector.getInstance());
 	}
 
 	// Called just before this Command runs the first time
@@ -22,7 +20,7 @@ public class ArcadeDriveByJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Chassis.getInstance().arcadeDrive(OI.getInstance().getMainLeftY(), OI.getInstance().getMainLeftX());
+		FuelCollector.getInstance().setPower(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -37,6 +35,5 @@ public class ArcadeDriveByJoystick extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		end();
 	}
 }

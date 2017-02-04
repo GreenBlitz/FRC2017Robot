@@ -11,50 +11,45 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Turns to a light reflector picked by the camera.
+ * Makes the robot move forward forever while adjusting itself a light reflector
+ * the camera picks.
  */
-public class TurnByVision extends Command implements PIDOutput, PIDSource {
+public class DriveStraightByVision extends Command implements PIDSource, PIDOutput {
 
-	private static final double Kp = 0, Ki = 0, Kd = 0;
+	private NetworkTable visionTable;
+	private PIDController visionPID;
+	private static final double kP = 0, kI = 0, kD = 0;
 
-	private PIDController turnPID = new PIDController(Kp, Ki, Kd, this, this);
-	private int times_on_target = 0;
-
-	public TurnByVision() {
-
+	public DriveStraightByVision() {
+		// Use requires() here to declare subsystem dependencies
 		requires(Chassis.getInstance());
+		visionPID = new PIDController(kP, kI, kD, this, this);
+
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-
-		turnPID.setAbsoluteTolerance(0.05);
-		turnPID.setSetpoint(0);
-		turnPID.enable();
-		NetworkTable.getTable("vision").putNumber("Run Period", 1);
+		visionTable = NetworkTable.getTable("vision");
+		visionPID.setAbsoluteTolerance(0.05);
+		visionPID.enable();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		SmartDashboard.putNumber("NETWORK TABLES", NetworkTable.getTable("vision").getNumber("elevatorX", 0.0));
+		SmartDashboard.putNumber("Drive by vision:: Table", visionTable.getNumber("elevatorX", 0.0));
+		SmartDashboard.putData("DriveByVisionPID", visionPID);
 
-		turnPID.setPID(SmartDashboard.getNumber("VisionTurn PID P", 0.0),
-				SmartDashboard.getNumber("VisionTurn PID I", 0.0), SmartDashboard.getNumber("VisionTurn PID D", 0.0));
-
-		SmartDashboard.putNumber("VisionTurn PID P", turnPID.getP());
-		SmartDashboard.putNumber("VisionTurn PID I", turnPID.getI());
-		SmartDashboard.putNumber("VisionTurn PID D", turnPID.getD());
+		SmartDashboard.putNumber("Drive by vision:: error", visionPID.getError());
 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (times_on_target = turnPID.onTarget() ? times_on_target + 1 : 0) >= 30;
+		return false;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		turnPID.disable();
 	}
 
 	// Called when another command which requires one or more of the same
@@ -65,22 +60,25 @@ public class TurnByVision extends Command implements PIDOutput, PIDSource {
 
 	@Override
 	public void pidWrite(double output) {
-		Chassis.getInstance().arcadeDrive(0.1, output);
 
+		SmartDashboard.putNumber("Drive by vision:: output", output);
+		Chassis.getInstance().arcadeDrive(1, output);
 	}
 
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
+
 	}
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
+
 		return PIDSourceType.kDisplacement;
 	}
 
 	@Override
 	public double pidGet() {
+
 		return NetworkTable.getTable("vision").getNumber("elevatorX", 0.0);
 	}
-
 }

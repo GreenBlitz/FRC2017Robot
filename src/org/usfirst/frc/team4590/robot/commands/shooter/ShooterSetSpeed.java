@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ShooterSetSpeed extends Command {
 
-	private double speed, currentSpeed, accelCounter;
+	private double speed;
 
 	public ShooterSetSpeed(double speed) {
 		// Use requires() here to declare subsystem dependencies
