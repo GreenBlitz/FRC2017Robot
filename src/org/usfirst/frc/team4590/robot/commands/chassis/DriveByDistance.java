@@ -14,7 +14,7 @@ public class DriveByDistance extends Command {
 
 	public DriveByDistance(double dis) {
 		// Use requires() here to declare subsystem dependencies
-		// requires(Robot.chassis);
+		requires(Chassis.getInstance());
 		this.dis = dis; // XD
 	}
 
