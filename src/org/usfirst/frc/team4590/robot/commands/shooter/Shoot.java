@@ -1,7 +1,6 @@
-package org.usfirst.frc.team4590.robot.commands;
+package org.usfirst.frc.team4590.robot.commands.shooter;
 
 import org.usfirst.frc.team4590.robot.commands.feeder.FeedToShooter;
-import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetSpeed;
 import org.usfirst.frc.team4590.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

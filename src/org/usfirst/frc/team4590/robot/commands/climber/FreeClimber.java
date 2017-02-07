@@ -4,9 +4,9 @@ import org.usfirst.frc.team4590.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClimberDoNothing extends Command {
+public class FreeClimber extends Command {
 
-	public ClimberDoNothing(){
+	public FreeClimber(){
 		requires(Climber.getInstance());
 	}
 

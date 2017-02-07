@@ -2,7 +2,7 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.FEEDER_TALON;
 
-import org.usfirst.frc.team4590.robot.commands.feeder.FeederDoNothing;
+import org.usfirst.frc.team4590.robot.commands.feeder.FreeFeader;
 
 import com.ctre.CANTalon;
 
@@ -43,6 +43,6 @@ public class Feeder extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new FeederDoNothing());
+		setDefaultCommand(new FreeFeader());
 	}
 }

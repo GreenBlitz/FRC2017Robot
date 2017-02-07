@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class FeederDoNothing extends Command {
+public class FreeFeader extends Command {
 
-    public FeederDoNothing() {
+    public FreeFeader() {
         // Use requires() here to declare subsystem dependencies
         requires(Feeder.getInstance());
     }

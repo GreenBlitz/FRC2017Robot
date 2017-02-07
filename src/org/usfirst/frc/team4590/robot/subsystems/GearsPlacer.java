@@ -4,6 +4,8 @@ import static org.usfirst.frc.team4590.robot.RobotMap.GEARS_SWITCH_A;
 import static org.usfirst.frc.team4590.robot.RobotMap.GEARS_SWITCH_B;
 import static org.usfirst.frc.team4590.robot.RobotMap.GEARS_TALON;
 
+import org.usfirst.frc.team4590.robot.commands.gearsPlacer.FreeGearsPlacer;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -58,6 +60,6 @@ public class GearsPlacer extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new FreeGearsPlacer());
 	}
 }

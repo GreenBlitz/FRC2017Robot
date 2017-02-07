@@ -3,20 +3,15 @@ package org.usfirst.frc.team4590.robot.commands.chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Free the Chassis from other commands
  */
-public class DriveTillVision extends Command {
+public class FreeChassis extends Command {
 
-	private double visionInput;
-
-	public DriveTillVision() {
+	public FreeChassis() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Chassis.getInstance());
-
 	}
 
 	// Called just before this Command runs the first time
@@ -25,15 +20,12 @@ public class DriveTillVision extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		visionInput = NetworkTable.getTable("vision").getNumber("elevatorX", 0.0);
-		SmartDashboard.putNumber("DRIVE TILL VISION:: vision ", visionInput);
-
-		Chassis.getInstance().arcadeDrive(0.4, 0);
+		Chassis.getInstance().tankDrive(0, 0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return visionInput != -2;
+		return false;
 	}
 
 	// Called once after isFinished returns true
@@ -43,6 +35,5 @@ public class DriveTillVision extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		end();
 	}
 }

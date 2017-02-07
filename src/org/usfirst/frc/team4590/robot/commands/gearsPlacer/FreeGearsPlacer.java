@@ -1,17 +1,17 @@
-package org.usfirst.frc.team4590.robot.commands.fuelCollector;
+package org.usfirst.frc.team4590.robot.commands.gearsPlacer;
 
-import org.usfirst.frc.team4590.robot.subsystems.FuelCollector;
+import org.usfirst.frc.team4590.robot.subsystems.GearsPlacer;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Do you really need a fucking explanation?
+ *
  */
-public class CollectorDoNothing extends Command {
+public class FreeGearsPlacer extends Command {
 
-	public CollectorDoNothing() {
+	public FreeGearsPlacer() {
 		// Use requires() here to declare subsystem dependencies
-		requires(FuelCollector.getInstance());
+		requires(GearsPlacer.getInstance());
 	}
 
 	// Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class CollectorDoNothing extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		FuelCollector.getInstance().setPower(0);
+		GearsPlacer.getInstance().setPower(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -35,5 +35,6 @@ public class CollectorDoNothing extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

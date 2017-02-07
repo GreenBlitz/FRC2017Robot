@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @param distance
  *            the distance to drive
  */
-public class DriveStraight extends Command implements PIDOutput, PIDSource {
+public class DriveStraightByDistance extends Command implements PIDOutput, PIDSource {
 
 	private int timesOnTarget;
 
@@ -24,7 +24,13 @@ public class DriveStraight extends Command implements PIDOutput, PIDSource {
 	private PIDController drivePID;
 	private double Kp = 0, Ki = 0, Kd = 0;
 
-	public DriveStraight(double distance) {
+	/**
+	 * Drives a given in straight line.
+	 * 
+	 * @param distance
+	 *            distance to drive.
+	 */
+	public DriveStraightByDistance(double distance) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Chassis.getInstance());
 		this.distance = distance;
@@ -37,23 +43,26 @@ public class DriveStraight extends Command implements PIDOutput, PIDSource {
 	protected void initialize() {
 		Chassis.getInstance().resetAHRS();
 		Chassis.getInstance().resetEncoders();
+		Chassis.getInstance().getPIDController().reset();
+		Chassis.getInstance().getPIDController().setSetpoint(0);
+		Chassis.getInstance().getPIDController().enable();
 
+		drivePID.reset();
 		drivePID.setAbsoluteTolerance(1);
 		drivePID.setSetpoint(distance);
-
+		drivePID.enable();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		SmartDashboard.putNumber("Chassis PID P", drivePID.getP());
-		SmartDashboard.putNumber("Chassis PID I", drivePID.getI());
-		SmartDashboard.putNumber("Chassis PID D", drivePID.getD());
+		SmartDashboard.putNumber("DriveStraight PID P", drivePID.getP());
+		SmartDashboard.putNumber("DriveStraight PID I", drivePID.getI());
+		SmartDashboard.putNumber("DriveStraight PID D", drivePID.getD());
 
-		drivePID.setPID(SmartDashboard.getNumber("Chassis PID P", 0.0), SmartDashboard.getNumber("Chassis PID I", 0.0),
-				SmartDashboard.getNumber("Chassis PID D", 0.0));
-
-		SmartDashboard.putData("PID Controller", drivePID);
+		drivePID.setPID(SmartDashboard.getNumber("DriveStraight PID P", 0.0),
+				SmartDashboard.getNumber("DriveStraight PID I", 0.0),
+				SmartDashboard.getNumber("DriveStraight PID D", 0.0));
 
 	}
 

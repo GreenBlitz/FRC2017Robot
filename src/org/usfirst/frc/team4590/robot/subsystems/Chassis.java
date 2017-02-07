@@ -16,6 +16,11 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * The main robot frame. Its in charge of the wheels, driving, AHRS and
+ * encoders.
+ *
+ */
 public class Chassis extends PIDSubsystem {
 
 	private static double kP = 0, kI = 0, kD = 0;
@@ -97,6 +102,7 @@ public class Chassis extends PIDSubsystem {
 		kP = SmartDashboard.getNumber("Chassis__PID(P)", kP);
 		kI = SmartDashboard.getNumber("Chassis__PID(I)", kI);
 		kD = SmartDashboard.getNumber("Chassis__PID(D)", kD);
+		getPIDController().setPID(kP, kI, kD);
 		/*
 		 * for debugging purposes
 		 * 

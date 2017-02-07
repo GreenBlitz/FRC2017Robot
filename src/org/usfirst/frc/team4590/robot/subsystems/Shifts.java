@@ -5,14 +5,13 @@ import static org.usfirst.frc.team4590.robot.RobotMap.DOUBLE_SOL_1_REV;
 import static org.usfirst.frc.team4590.robot.RobotMap.DOUBLE_SOL_2_FORE;
 import static org.usfirst.frc.team4590.robot.RobotMap.DOUBLE_SOL_2_REV;
 
-import org.usfirst.frc.team4590.robot.commands.shifter.AutoGearShifter;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This subsystem is responsible for the gears in the robot.
+ * This subsystem is responsible for the gears in the robot. WARNING: power will
+ * hurt the robot's battery.
  */
 public class Shifts extends Subsystem {
 
@@ -72,6 +71,6 @@ public class Shifts extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new AutoGearShifter());
+		// setDefaultCommand(new AutoGearShifter()); untill we figer sruff
 	}
 }

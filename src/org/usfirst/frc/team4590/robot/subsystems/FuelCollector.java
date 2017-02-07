@@ -2,7 +2,7 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.FUEL_COLLECTOR_TALON;
 
-import org.usfirst.frc.team4590.robot.commands.fuelCollector.CollectorDoNothing;
+import org.usfirst.frc.team4590.robot.commands.fuelCollector.FreeCollector;
 
 import com.ctre.CANTalon;
 
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Collects fuel
  */
 public class FuelCollector extends Subsystem {
 
@@ -42,6 +42,6 @@ public class FuelCollector extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new CollectorDoNothing());
+		setDefaultCommand(new FreeCollector());
 	}
 }

@@ -35,7 +35,9 @@ public class ShooterSetSpeed extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Shooter.getInstance().getPIDController().disable();
 		Shooter.getInstance().getPIDController().reset();
+
 	}
 
 	// Called when another command which requires one or more of the same

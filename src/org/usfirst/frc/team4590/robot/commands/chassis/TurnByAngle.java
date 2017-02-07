@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Turns by given angle (degrees).
+ * Turns a given angle.
+ * 
+ * @param angle
+ *            the angle to turn (degrees).
  */
 public class TurnByAngle extends Command implements PIDSource, PIDOutput {
 
@@ -34,8 +37,8 @@ public class TurnByAngle extends Command implements PIDSource, PIDOutput {
 		Chassis.getInstance().resetAHRS();
 		gyroPID.enable();
 
-		gyroPID.setAbsoluteTolerance(2.0 / 360.0);
-		gyroPID.setSetpoint(toAngle / 90.0);
+		gyroPID.setAbsoluteTolerance(2.0);
+		gyroPID.setSetpoint(toAngle);
 
 		gyroPID.setOutputRange(PID_CONSTANT - 1, 1 - PID_CONSTANT);
 
@@ -78,6 +81,7 @@ public class TurnByAngle extends Command implements PIDSource, PIDOutput {
 	protected void end() {
 
 		gyroPID.disable();
+		gyroPID.reset();
 	}
 
 	// Called when another command which requires one or more of the same
@@ -109,7 +113,7 @@ public class TurnByAngle extends Command implements PIDSource, PIDOutput {
 		// SmartDashboard.putNumber("TurnByAngle.pidGet=>currentAngle2",
 		// currentAngle);
 		// SmartDashboard.putNumber("error_a",gyroPID.getError());
-		double ret = (currentAngle / 90);
+		double ret = (currentAngle);
 		// SmartDashboard.putNumber("TurnByAngle.pidGet=>return", ret =
 		// (currentAngle/90));
 		return ret;
@@ -121,7 +125,7 @@ public class TurnByAngle extends Command implements PIDSource, PIDOutput {
 		// output",output);
 
 		double newOutput = output > 0 ? output + PID_CONSTANT : output - PID_CONSTANT;
-		Chassis.getInstance().tankDrive(newOutput, -newOutput);
+		Chassis.getInstance().arcadeDrive(0, newOutput);
 
 	}
 }

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShooterDoNothing extends Command {
+public class FreeShooter extends Command {
 
-    public ShooterDoNothing() {
+    public FreeShooter() {
         // Use requires() here to declare subsystem dependencies
        requires(Shooter.getInstance());
     }

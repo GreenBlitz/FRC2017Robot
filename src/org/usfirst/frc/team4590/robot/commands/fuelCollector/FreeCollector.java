@@ -1,17 +1,17 @@
-package org.usfirst.frc.team4590.robot.commands.climber;
+package org.usfirst.frc.team4590.robot.commands.fuelCollector;
 
-import org.usfirst.frc.team4590.robot.subsystems.Climber;
+import org.usfirst.frc.team4590.robot.subsystems.FuelCollector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Do you really need a fucking explanation?
  */
-public class Climb extends Command {
+public class FreeCollector extends Command {
 
-	public Climb() {
+	public FreeCollector() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Climber.getInstance());
+		requires(FuelCollector.getInstance());
 	}
 
 	// Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class Climb extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Climber.getInstance().setPower(1);
+		FuelCollector.getInstance().setPower(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -30,12 +30,10 @@ public class Climb extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Climber.getInstance().setPower(0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		end();
 	}
 }

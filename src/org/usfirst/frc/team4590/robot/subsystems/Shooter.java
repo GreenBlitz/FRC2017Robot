@@ -3,7 +3,7 @@ package org.usfirst.frc.team4590.robot.subsystems;
 import static org.usfirst.frc.team4590.robot.RobotMap.SHOOTER_TALON_A;
 import static org.usfirst.frc.team4590.robot.RobotMap.SHOOTER_TALON_B;
 
-import org.usfirst.frc.team4590.robot.commands.shooter.ShooterDoNothing;
+import org.usfirst.frc.team4590.robot.commands.shooter.FreeShooter;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Shoots the fuel.
  */
 public class Shooter extends PIDSubsystem {
 
@@ -83,7 +83,7 @@ public class Shooter extends PIDSubsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new ShooterDoNothing());
+		setDefaultCommand(new FreeShooter());
 	}
 
 	protected double returnPIDInput() {
