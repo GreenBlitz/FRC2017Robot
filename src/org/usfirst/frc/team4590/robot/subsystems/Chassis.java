@@ -7,7 +7,7 @@ import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_RIGHT_A;
 import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_RIGHT_B;
 
 import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByJoystick;
-import org.usfirst.frc.team4590.utils.ThreeCimShifter;
+import org.usfirst.frc.team4590.utils.ThreeCIMShifter;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -26,7 +26,7 @@ public class Chassis extends PIDSubsystem {
 	private static double kP = 0, kI = 0, kD = 0;
 	private Encoder encLeft, encRight;
 	private AHRS ahrs;
-	private ThreeCimShifter drive;
+	private ThreeCIMShifter drive;
 	private static Chassis instance;
 
 	private Chassis() {
@@ -34,7 +34,7 @@ public class Chassis extends PIDSubsystem {
 		encLeft = new Encoder(CHASSIS_ENCODER_LEFT_A, CHASSIS_ENCODER_LEFT_B);
 		encRight = new Encoder(CHASSIS_ENCODER_RIGHT_A, CHASSIS_ENCODER_RIGHT_B);
 		ahrs = new AHRS(SPI.Port.kMXP);
-		drive = new ThreeCimShifter();
+		drive = new ThreeCIMShifter();
 		SmartDashboard.putNumber("Chassis__PID(P)", kP);
 		SmartDashboard.putNumber("Chassis__PID(I)", kI);
 		SmartDashboard.putNumber("Chassis__PID(D)", kD);

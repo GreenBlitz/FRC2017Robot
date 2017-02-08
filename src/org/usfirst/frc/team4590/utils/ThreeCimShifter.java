@@ -12,7 +12,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SpeedController;
-public class ThreeCimShifter {
+public class ThreeCIMShifter {
 
 	
 	private final SpeedController m_leftGetter;
@@ -27,7 +27,7 @@ public class ThreeCimShifter {
 	//GUY: DO NOT CHANGE
 	public CANTalon leftFront, leftRear, rightFront, rightRear, leftMiddle, rightMiddle;
 	
-	public ThreeCimShifter() {
+	public ThreeCIMShifter() {
 		leftFront = new CANTalon(CHASSIS_TALON_LEFT_FRONT);
 		leftRear = new CANTalon(CHASSIS_TALON_LEFT_REAR);
 		leftMiddle = new CANTalon(CHASSIS_TALON_LEFT_MIDLE);
