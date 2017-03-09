@@ -7,6 +7,7 @@ import org.usfirst.frc.team4590.robot.commands.chassis.DriveByGoalVision;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveStraightByGoalVision;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveStraightByVision;
 import org.usfirst.frc.team4590.robot.commands.chassis.GearsAutoJoel;
+import org.usfirst.frc.team4590.robot.commands.chassis.SetDriveMultiplier;
 import org.usfirst.frc.team4590.robot.commands.chassis.TurnByVision;
 import org.usfirst.frc.team4590.robot.commands.feeder.FeedToShooter;
 import org.usfirst.frc.team4590.robot.commands.fuelCollector.CollectFuel;
@@ -56,9 +57,10 @@ public class OI {
 		mainJS.getButton(JoystickBinding.L1).whileHeld(new DriveStraightByVision());
 		mainJS.getButton(JoystickBinding.Y).whenPressed(new ValveSetState());
 		mainJS.getButton(JoystickBinding.R1).whileHeld(new CollectFuel());
+		mainJS.getButton(JoystickBinding.START).whenPressed(new SetDriveMultiplier(0.5, false));
 		subJS.getButton(JoystickBinding.L1).whileHeld(new CollectFuel());
 		subJS.getButton(JoystickBinding.X).whileHeld(new FeedToShooter());
-		subJS.getButton(JoystickBinding.R1).whileHeld(new ShooterSetSpeed(2100));
+		subJS.getButton(JoystickBinding.R1).whileHeld(new ShooterSetSpeed(2150));
 		subJS.getButton(JoystickBinding.A).whileHeld(new TurnByVision());
 		subJS.getButton(JoystickBinding.Y).whileHeld(new DriveStraightByGoalVision(1300));
 		subJS.getButton(JoystickBinding.B).whileHeld(new DriveByGoalVision(1300));
@@ -149,6 +151,20 @@ public class OI {
 
 	public double getMainRightX() {
 		return mainJS.getAxisValue(JoystickAxis.RIGHT_X);
+	}
+	
+	public double getMainNormalLeftY() {
+		double y = getMainLeftY();
+		double x = getMainLeftX();
+		
+		return y / Math.sqrt(x * x + y * y);	
+	}
+	
+	public double getMainNormalRightX() {
+		double y = getMainRightY();
+		double x = getMainRightX();
+		
+		return x / Math.sqrt(x * x + y * y);	
 	}
 
 	public double getMainTriggerL() {

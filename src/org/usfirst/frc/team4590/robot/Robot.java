@@ -8,6 +8,8 @@ import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
 import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoGuyde;
 import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoJoel;
 import org.usfirst.frc.team4590.robot.commands.chassis.GearsAutoJoel;
+import org.usfirst.frc.team4590.robot.commands.feeder.FeedToShooter;
+import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetSpeed;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Climber;
 import org.usfirst.frc.team4590.robot.subsystems.Feeder;
@@ -18,7 +20,9 @@ import org.usfirst.frc.team4590.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,6 +76,25 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Autonomus Line Forward", new ArcadeDriveByValues(-0.8, 0, 6250));
 		chooser.addObject("Autonomus Iver Left", new BasicGearsAutoGuyde(true));
 		chooser.addObject("Autonomus Iver Right", new BasicGearsAutoGuyde(false));
+		chooser.addObject("Shoot From Place", new CommandGroup(){{ addSequential(new ShooterSetSpeed(2150)); addSequential(new WaitCommand(0.500)); addSequential(new FeedToShooter()); addSequential(new WaitCommand(4.500)); addSequential(new Command(){public boolean isFinished(){ return true; } public void execute(){Scheduler.getInstance().removeAll();}});}});
+		/**
+		chooser.addObject("Shoot From Place", new CommandGroup(){
+			{
+				addSequential(new ShooterSetSpeed(2150));
+				addSequential(new WaitCommand(0.500));
+				addSequential(new FeedToShooter());
+				addSequential(new WaitCommand(4.500));
+				addSequential(new Command(){
+					public boolean isFinished(){
+						return true;
+					}
+					
+					public void execute(){
+						Scheduler.getInstance().removeAll();
+					}
+				});
+			}
+		}**/
 		SmartDashboard.putData("Auto mode command", chooser);
 	}
 

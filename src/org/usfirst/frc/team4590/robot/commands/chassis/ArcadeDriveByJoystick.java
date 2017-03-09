@@ -23,7 +23,7 @@ public class ArcadeDriveByJoystick extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		System.out.println("yay");
-		Chassis.getInstance().arcadeDrive(-OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightX());
+		Chassis.getInstance().arcadeDrive(-OI.getInstance().getMainNormalLeftY(), OI.getInstance().getMainNormalRightX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
