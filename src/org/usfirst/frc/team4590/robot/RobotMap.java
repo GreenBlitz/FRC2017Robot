@@ -11,19 +11,17 @@ public class RobotMap {
 	 *Solenoid Ports; for more ports see {@link RobotMap} 
 	 */
     public static final int //solenoids
-    						DOUBLE_SOL_1_FORE 	= 0,
-    						DOUBLE_SOL_1_REV 	= 0,
-    						DOUBLE_SOL_2_FORE 	= 0,
-    						DOUBLE_SOL_2_REV 	= 0;
+    						BS_DOUBLE_SOL_FORE 	= 5,
+    						BS_DOUBLE_SOL_REV 	= 4;
     /**
      * Encoders Ports; for more ports see {@link RobotMap}
      */
     public static final int // encoders
     						CHASSIS_ENCODER_LEFT_A = 0,
-    						CHASSIS_ENCODER_LEFT_B = 0,
+    						CHASSIS_ENCODER_LEFT_B = 1,
     						
-    						CHASSIS_ENCODER_RIGHT_A = 0,
-    						CHASSIS_ENCODER_RIGHT_B = 0,
+    						CHASSIS_ENCODER_RIGHT_A = 2,
+    						CHASSIS_ENCODER_RIGHT_B = 3,
     						
     						SHOOTER_ENCODER_A = 0,
     						SHOOTER_ENCODER_B = 0,
@@ -35,23 +33,24 @@ public class RobotMap {
      * Motor Ports; for more ports see {@link RobotMap}
      */
     public static final int // motors
-    						CHASSIS_TALON_RIGHT_REAR = 0,
-    						CHASSIS_TALON_RIGHT_FRONT = 0,
-    						CHASSIS_TALON_RIGHT_MIDLE = 0,
-    						CHASSIS_TALON_LEFT_REAR = 0,
-    						CHASSIS_TALON_LEFT_FRONT = 0,
-    						CHASSIS_TALON_LEFT_MIDLE = 0,
+    						CHASSIS_TALON_RIGHT_REAR = 1,
+    						CHASSIS_TALON_RIGHT_FRONT = 2,
+    						CHASSIS_TALON_RIGHT_MIDLE = 3,
+    						CHASSIS_TALON_LEFT_REAR = 4,
+    						CHASSIS_TALON_LEFT_FRONT = 5,
+    						CHASSIS_TALON_LEFT_MIDLE = 6,
     						
-    						GEARS_TALON = 0,
+    						GEARS_TALON = 9,
     
-    						SHOOTER_TALON_A = 0,
-    						SHOOTER_TALON_B = 0,
+    						SHOOTER_TALON_A = 11,
+    						SHOOTER_TALON_B = 12,
     						
-    						FUEL_COLLECTOR_TALON = 0,
+    						FUEL_COLLECTOR_TALON = 8,
     						
-    						CLIMBER_TALON = 0,
+    						CLIMBER_TALON = 7,
     						
-    						FEEDER_TALON = 0;
+    						FEEDER_TALON = 10,
+    						HELPER_TALON = 13;
     
     /**						
      * Gyros Ports; for more ports see {@link RobotMap}
@@ -62,12 +61,13 @@ public class RobotMap {
     /**
      * Micro Switches Ports; for more ports see {@link RobotMap}
      */
-    public static final int // motors
-    						GEARS_SWITCH_A = 0,
-    						GEARS_SWITCH_B = 0;
+    public static final int // switches
+    						GEARS_SWITCH_A = 4,
+    	    				GEARS_SWITCH_B = 5;
     /**						
      * Joystick Ports; for more ports see {@link RobotMap}
      */
     public static final int
-    						JOYSTICK_MAIN = 0;
+    						JOYSTICK_MAIN = 0,
+    						JOYSTICK_SECOND = 2;
 }

@@ -1,19 +1,18 @@
-package org.usfirst.frc.team4590.robot.commands.feeder;
+package org.usfirst.frc.team4590.robot.commands.climber;
 
 import org.usfirst.frc.team4590.robot.OI;
-import org.usfirst.frc.team4590.robot.subsystems.Feeder;
-import org.usfirst.frc.team4590.robot.subsystems.Shooter;
+import org.usfirst.frc.team4590.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class FeedToShooter extends Command {
+public class ClimbByTrigger extends Command {
 
-	public FeedToShooter() {
+	public ClimbByTrigger() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Feeder.getInstance());
+		requires(Climber.getInstance());
 	}
 
 	// Called just before this Command runs the first time
@@ -22,9 +21,7 @@ public class FeedToShooter extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		//if (Shooter.getInstance().onTarget()) {
-			Feeder.getInstance().setPower(OI.getInstance().getSubPOVDown() ? -0.6 : 0.6);
-		//}
+		Climber.getInstance().setPower(- OI.getInstance().getMainTriggerR());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -34,11 +31,12 @@ public class FeedToShooter extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Feeder.getInstance().setPower(0);
+		Climber.getInstance().setPower(0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

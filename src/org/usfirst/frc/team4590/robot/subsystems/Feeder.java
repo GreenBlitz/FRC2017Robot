@@ -1,8 +1,9 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.FEEDER_TALON;
+import static org.usfirst.frc.team4590.robot.RobotMap.HELPER_TALON;
 
-import org.usfirst.frc.team4590.robot.commands.feeder.FreeFeader;
+import org.usfirst.frc.team4590.robot.commands.feeder.FreeFeeder;
 
 import com.ctre.CANTalon;
 
@@ -14,7 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Feeder extends Subsystem {
 
+	private static final double HELPER_MULTIPLIER = -0.8;
 	private CANTalon talon1;
+	private CANTalon m_helper;
 	// private Encoder enc;
 	private static Feeder instance;
 
@@ -22,6 +25,7 @@ public class Feeder extends Subsystem {
 	// here. Call these from Commands.
 	private Feeder() {
 		talon1 = new CANTalon(FEEDER_TALON);
+		m_helper = new CANTalon(HELPER_TALON);
 		// enc = new Encoder(FEEDER_ENCODER_A, FEEDER_ENCODER_B);
 	}
 
@@ -35,6 +39,7 @@ public class Feeder extends Subsystem {
 
 	public void setPower(double power) {
 		talon1.set(power);
+		m_helper.set(power * HELPER_MULTIPLIER);
 	}
 
 	public void status() {
@@ -43,6 +48,6 @@ public class Feeder extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new FreeFeader());
+		setDefaultCommand(new FreeFeeder());
 	}
 }

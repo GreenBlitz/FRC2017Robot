@@ -7,28 +7,23 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClosePlacer extends Command {
-
+public class OpenPlacer2 extends Command {
+	
 	private boolean m_init = false;
 	
-	public ClosePlacer() {
-		// Use requires() here to declare subsystem dependencies
+	public OpenPlacer2() {
 		requires(GearsPlacer.getInstance());
-	}
-
-	// Called just before this Command runs the first time
-	protected void initialize() {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (m_init) GearsPlacer.getInstance().setPower(-0.45);
+		if (m_init) GearsPlacer.getInstance().setPower(0.45);
 		else m_init = true; 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return !GearsPlacer.getInstance().isClosed();
+		return !GearsPlacer.getInstance().isOpen();
 	}
 
 	// Called once after isFinished returns true
@@ -36,9 +31,5 @@ public class ClosePlacer extends Command {
 		GearsPlacer.getInstance().setPower(0);
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-		end();
-	}
+
 }

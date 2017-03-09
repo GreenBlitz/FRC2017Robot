@@ -3,6 +3,7 @@ package org.usfirst.frc.team4590.robot.commands.shifter;
 import org.usfirst.frc.team4590.robot.subsystems.Shifts;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changes the shift to the opposite value. Example: SPEED -> POWER
@@ -10,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ValveSetState extends Command {
 
 	public ValveSetState() {
-		// Use requires() here to declare subsystem dependencies
 		requires(Shifts.getInstance());
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Shifts.getInstance().toggleState();
+		SmartDashboard.putBoolean("gears_state", Shifts.getInstance().isOpened());
 	}
 
 	// Called repeatedly when this Command is scheduled to run

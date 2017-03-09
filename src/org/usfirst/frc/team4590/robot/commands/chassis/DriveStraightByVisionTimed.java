@@ -11,16 +11,19 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveStraightByVision extends Command implements PIDOutput,PIDSource {
+public class DriveStraightByVisionTimed extends Command implements PIDOutput,PIDSource {
 	private static final double Kp = 0.7, Ki = 0 , Kd = 0;
 	
 	
 	private PIDController turnPID = new PIDController(Kp, Ki, Kd, this, this);
 
-    public DriveStraightByVision() {
-       
-        
+	private final long m_millis;
+	
+	private long m_startTime;
+	
+    public DriveStraightByVisionTimed(long millis) {
     	requires(Chassis.getInstance());
+    	m_millis = millis;
     }
 
     // Called just before this Command runs the first time
@@ -32,6 +35,7 @@ public class DriveStraightByVision extends Command implements PIDOutput,PIDSourc
     	turnPID.setSetpoint(0);
     	turnPID.enable();
     	CameraIndex.LIFT.set();
+    	m_startTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -54,7 +58,7 @@ public class DriveStraightByVision extends Command implements PIDOutput,PIDSourc
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
    
-    	return Chassis.getInstance().getAccel('x') < -0.3;// (times_on_target += turnPID.onTarget() ? 1 : - times_on_target) >= 20;
+    	return System.currentTimeMillis() - m_startTime > m_millis;// (times_on_target += turnPID.onTarget() ? 1 : - times_on_target) >= 20;
     	//return false;
     }
 
@@ -80,7 +84,7 @@ public class DriveStraightByVision extends Command implements PIDOutput,PIDSourc
 		System.out.println("I am writing a new PID value");
 		SmartDashboard.putNumber("DRIVE STRAIGHT BY VISION: output", output);
 		
-		Chassis.getInstance().arcadeDrive(0.5, -output);
+		Chassis.getInstance().arcadeDrive(0.67, -output);
 		
 	}
 

@@ -6,29 +6,41 @@ import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Drives in arcade mode: Y axis controls the power forward while the X axis
- * controls the rotation.
+ * Drives in tank mode: Y axis of each joystick controls its parallel cim (left
+ * joystick = left sim, right = right).
  */
-public class ArcadeDriveByJoystick extends Command {
-
-	public ArcadeDriveByJoystick() {
-		// Use requires() here to declare subsystem dependencies
+public class ArcadeDriveByValues extends Command {
+	
+	private double m_leftValue;
+	private double m_rightValue;
+	private long m_timeout;
+	private long m_startTime;
+	
+	public ArcadeDriveByValues(double left, double right) {
+		this(left, right, -1);
+	}
+	
+	public ArcadeDriveByValues(double left, double right, long timeout) {
 		requires(Chassis.getInstance());
+		m_leftValue = left;
+		m_rightValue = right;
+		m_timeout = timeout;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		m_startTime = System.currentTimeMillis();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		System.out.println("yay");
-		Chassis.getInstance().arcadeDrive(-OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightX());
+		System.out.println("Test");
+		Chassis.getInstance().arcadeDrive(m_leftValue, m_rightValue);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return m_timeout != -1 && System.currentTimeMillis() - m_startTime > m_timeout;
 	}
 
 	// Called once after isFinished returns true

@@ -11,6 +11,7 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.SpeedController;
 public class ThreeCIMShifter {
 
@@ -48,7 +49,7 @@ public class ThreeCIMShifter {
 
 		m_robotDrive.setInvertedMotor(MotorType.kFrontRight, RIGHT_INVERTED);
 		m_robotDrive.setInvertedMotor(MotorType.kRearRight, RIGHT_INVERTED);
-
+		
 		// m_slaveRobotDrive.setInvertedMotor(MotorType.kRearRight,
 		// RIGHT_INVERTED);
 	}

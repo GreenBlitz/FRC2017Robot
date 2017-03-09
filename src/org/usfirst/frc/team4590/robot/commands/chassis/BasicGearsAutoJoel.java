@@ -8,14 +8,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class GearsAutoJoel extends CommandGroup {
+public class BasicGearsAutoJoel extends CommandGroup {
 
-	public GearsAutoJoel(boolean isLeft, double power1, double power2) {
-		// Add Commands here:
-
-		addSequential(new DriveUntilVision(isLeft, power1));
-		addSequential(new TurnUntilVision(false, power2));
-		addSequential(new DriveStraightByVisionTimed(2500));
+	public BasicGearsAutoJoel() {
+		addSequential(new DriveStraightByVisionTimed(5500));
 		addSequential(new OpenPlacer2());
 		
 		addSequential(new ArcadeDriveByValues(-0.65, 0, 750));

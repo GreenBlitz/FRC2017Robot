@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ShooterSetSpeed extends Command implements PIDSource, PIDOutput {
+public class ShooterSetSpeed2 extends Command implements PIDSource, PIDOutput {
 
 	//private static final double TICKS_PER_RPM = 35.842 /**60.39*//*------*//**35.685**/;
 
@@ -20,30 +20,28 @@ public class ShooterSetSpeed extends Command implements PIDSource, PIDOutput {
 	
 	private PIDController m_controller;
 	
-	private double m_lastPower = 0; //2000 rpm => 0.61 speed value (12.5V - 12.6V)
-	private static final double RPM2000_POWER = -0.6225;
+	private int m_targetTimes;
 
-	public ShooterSetSpeed(double speed) {
+	public ShooterSetSpeed2(double speed) {
 		requires(Shooter.getInstance());
 		m_speed = speed;
-		m_controller = new PIDController(2, 0.003, 0, this, this, 0.025);
-		//SmartDashboard.putNumber("Shooter::Speed ", speed);
+		m_controller = new PIDController(0, 0.007, 0, this, this);
+		SmartDashboard.putNumber("Shooter::Speed ", speed);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		//m_speed = SmartDashboard.getNumber("Shooter::Speed ", m_speed);
 		m_controller.reset();
-		m_controller.setSetpoint(1);
+		m_controller.setSetpoint(m_speed);
 		m_controller.enable();
 
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		System.out.println("I am executing " + ShooterSetSpeed.class.getName());
+		System.out.println("I am executing " + ShooterSetSpeed2.class.getName());
 		Shooter.getInstance().status();
-		SmartDashboard.putNumber("Shooter::Speed ", Shooter.getInstance().getSpeed());
-		
 		
 	}
 
@@ -57,11 +55,15 @@ public class ShooterSetSpeed extends Command implements PIDSource, PIDOutput {
 		m_controller.disable();
 		Shooter.getInstance().setPower(0);
 	}
+	
+	public boolean isReady(){
+		return m_targetTimes > 2;
+	}
 
 	@Override
 	public void pidWrite(double output) {
 		SmartDashboard.putNumber("Test PID Output", output);
-		Shooter.getInstance().setPower(m_lastPower = RPM2000_POWER - output);
+		Shooter.getInstance().setPower(output);
 	}
 
 	@Override

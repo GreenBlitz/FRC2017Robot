@@ -14,6 +14,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,11 +23,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Chassis extends PIDSubsystem {
-
+	
+	
 	private static double kP = 0, kI = 0, kD = 0;
 	private Encoder encLeft, encRight;
 	private AHRS ahrs;
 	private ThreeCIMShifter drive;
+//	private boolean arcadeMode = true;
 	private static Chassis instance;
 
 	private Chassis() {
@@ -38,6 +41,9 @@ public class Chassis extends PIDSubsystem {
 		SmartDashboard.putNumber("Chassis__PID(P)", kP);
 		SmartDashboard.putNumber("Chassis__PID(I)", kI);
 		SmartDashboard.putNumber("Chassis__PID(D)", kD);
+		LiveWindow.addSensor("Chassis", "Encoder left", encLeft);
+		LiveWindow.addSensor("Chassis", "Encoder right", encRight);
+		//LiveWindow.addSensor("Chassis", "AHRS", ahrs);
 	}
 
 	public static final void init() {
@@ -50,11 +56,19 @@ public class Chassis extends PIDSubsystem {
 
 	// getters for sensors
 	public double getDistance() {
-		return (encLeft.getDistance() + encRight.getDistance()) / 2;
+		return (encLeft.getDistance() - encRight.getDistance()) / 2;
 	}
 
 	public double getSpeed() {
-		return (encLeft.getRate() + encRight.getRate()) / 2;
+		return (encLeft.getRate() - encRight.getRate()) / 2;
+	}
+	
+	public double getSpeedL() {
+		return - encRight.getRate();
+	}
+	
+	public double getSpeedR() {
+		return encLeft.getRate();
 	}
 
 	public double getAngle() {
@@ -102,6 +116,9 @@ public class Chassis extends PIDSubsystem {
 		kP = SmartDashboard.getNumber("Chassis__PID(P)", kP);
 		kI = SmartDashboard.getNumber("Chassis__PID(I)", kI);
 		kD = SmartDashboard.getNumber("Chassis__PID(D)", kD);
+	 	SmartDashboard.putNumber("x accel", Chassis.getInstance().getAccel('x'));
+    	SmartDashboard.putNumber("y accel", Chassis.getInstance().getAccel('y'));
+    	SmartDashboard.putNumber("z accel", Chassis.getInstance().getAccel('z'));
 		getPIDController().setPID(kP, kI, kD);
 		/*
 		 * for debugging purposes
@@ -129,5 +146,6 @@ public class Chassis extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		arcadeDrive(0, output);
 	}
+
 
 }
