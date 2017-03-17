@@ -1,11 +1,7 @@
 package org.usfirst.frc.team4590.utils;
 
-
-import org.usfirst.frc.team4590.robot.Robot;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class SmartJoystick {
 	private int m_leftAxisY;
@@ -19,66 +15,6 @@ public class SmartJoystick {
 	private boolean m_rightInvertedX;
 	
 	private Joystick m_joystick;
-	
-	public class SmartButton{
-		
-		private boolean m_lastState = false;
-		
-		private JoystickButton m_button;
-		
-		private Command while_held;
-		private Command when_pressed;
-		private Command when_released;
-
-		protected SmartButton(JoystickButton button){
-			Robot.getInstance().addPermaCommand(new SmartTracker());
-			m_button = button;
-		}
-		
-		public void whileHeld(Command command){
-			if (while_held != null && while_held.isRunning())
-				while_held.cancel();
-
-			while_held = command;
-
-		}
-		
-		public void whenPressed(Command command){
-			if (when_pressed != null && when_pressed.isRunning())
-				when_pressed.cancel();
-
-			when_pressed = command;
-
-		}
-		
-		public void whenReleased(Command command){
-			if (when_released != null && when_released.isRunning())
-				when_released.cancel();
-
-			when_released = command;
-		}
-		
-		
-		private class SmartTracker extends Command{
-
-			public void execute(){
-				if (m_button.get()){
-					if (while_held != null && !while_held.isRunning()) while_held.start();
-					if (when_pressed != null && !m_lastState) when_pressed.start();
-				} else {
-					if (while_held != null && while_held.isRunning()) while_held.cancel();
-					if (when_released != null && m_lastState) when_released.start();
-				}
-				m_lastState = m_button.get();
-			}
-			
-			@Override
-			protected boolean isFinished() {
-				return false;
-			}
-			
-		}
-	}
 	
 	public static enum JoystickBinding{
 		A,

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnByVision extends Command implements PIDOutput,PIDSource {
-	private static final double Kp = -0.75, Ki = -0.02 , Kd = 0;
+	private static final double Kp = -0.5, Ki = -0.01 , Kd = 0;
 	
 	private static final double DEFAULT_LAST_VALUE = 0.5;
 	

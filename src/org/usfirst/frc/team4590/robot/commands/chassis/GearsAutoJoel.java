@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.commands.chassis;
 
 import org.usfirst.frc.team4590.robot.commands.gearsPlacer.ClosePlacer;
-import org.usfirst.frc.team4590.robot.commands.gearsPlacer.OpenPlacer2;
+import org.usfirst.frc.team4590.robot.commands.gearsPlacer.OpenPlacer;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -15,11 +15,9 @@ public class GearsAutoJoel extends CommandGroup {
 
 		addSequential(new DriveUntilVision(isLeft, power1));
 		addSequential(new TurnUntilVision(false, power2));
-		addSequential(new DriveStraightByVisionTimed(2500));
-		addSequential(new OpenPlacer2());
-		
-		addSequential(new ArcadeDriveByValues(-0.65, 0, 750));
-		
+		addSequential(new DriveStraightByVision());
+		addSequential(new OpenPlacer());
+		addSequential(new DriveStraightByDistance(-100));
 		addSequential(new ClosePlacer());
 		// addSequential(new Command2());
 		// these will run in order.

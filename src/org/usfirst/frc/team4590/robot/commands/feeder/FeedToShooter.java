@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team4590.robot.commands.feeder;
 
 import org.usfirst.frc.team4590.robot.OI;
@@ -23,7 +24,7 @@ public class FeedToShooter extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		//if (Shooter.getInstance().onTarget()) {
-			Feeder.getInstance().setPower(OI.getInstance().getSubPOVDown() ? -0.6 : 0.6);
+			Feeder.getInstance().setPower(OI.getInstance().getMainTriggerL());
 		//}
 	}
 

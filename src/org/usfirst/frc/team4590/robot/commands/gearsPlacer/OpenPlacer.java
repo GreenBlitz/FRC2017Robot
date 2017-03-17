@@ -43,7 +43,6 @@ public class OpenPlacer extends Command {
 	protected void end() {
 		//SmartDashboard.putBoolean("GEARS PLACER:: open ", false);
 		GearsPlacer.getInstance().setPower(0);
-		throw new RuntimeException("test2");
 	}
 
 	// Called when another command which requires one or more of the same

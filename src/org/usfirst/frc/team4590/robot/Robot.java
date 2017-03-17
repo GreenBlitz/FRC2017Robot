@@ -1,15 +1,6 @@
 
 package org.usfirst.frc.team4590.robot;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
-import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoGuyde;
-import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoJoel;
-import org.usfirst.frc.team4590.robot.commands.chassis.GearsAutoJoel;
-import org.usfirst.frc.team4590.robot.commands.feeder.FeedToShooter;
-import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetSpeed;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Climber;
 import org.usfirst.frc.team4590.robot.subsystems.Feeder;
@@ -20,9 +11,7 @@ import org.usfirst.frc.team4590.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,19 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	private List<Command> perma_commands = new LinkedList<Command>();
-	
-	private static Robot instance;
-	
-	public static Command test_command;
-	
-	public static Robot getInstance(){
-		return instance;
-	}
-	
-	public void addPermaCommand(Command com){
-		perma_commands.add(com);
-	}
+	public static OI oi;
 
 	Command autonomousCommand;
 	SendableChooser chooser;
@@ -58,7 +35,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		instance = this;
 		Chassis.init();
 		Climber.init();
 		GearsPlacer.init();
@@ -68,34 +44,9 @@ public class Robot extends IterativeRobot {
 		Shooter.init();
 		OI.init();
 		chooser = new SendableChooser();
-		chooser.addDefault("Left Gears Auto", new GearsAutoJoel(true, 0.6, 0.5));
-		chooser.addObject("Right Gears Auto", new GearsAutoJoel(false, 0.6, 0.5));
-		chooser.addObject("Basic Gears Auto", new BasicGearsAutoJoel());
-		chooser.addObject("Autonomus Nope", new ArcadeDriveByValues(0, 0, 3000));
-		chooser.addObject("Autonomus Line Back", new ArcadeDriveByValues(0.8, 0, 6250));
-		chooser.addObject("Autonomus Line Forward", new ArcadeDriveByValues(-0.8, 0, 6250));
-		chooser.addObject("Autonomus Iver Left", new BasicGearsAutoGuyde(true));
-		chooser.addObject("Autonomus Iver Right", new BasicGearsAutoGuyde(false));
-		chooser.addObject("Shoot From Place", new CommandGroup(){{ addSequential(new ShooterSetSpeed(2150)); addSequential(new WaitCommand(0.500)); addSequential(new FeedToShooter()); addSequential(new WaitCommand(4.500)); addSequential(new Command(){public boolean isFinished(){ return true; } public void execute(){Scheduler.getInstance().removeAll();}});}});
-		/**
-		chooser.addObject("Shoot From Place", new CommandGroup(){
-			{
-				addSequential(new ShooterSetSpeed(2150));
-				addSequential(new WaitCommand(0.500));
-				addSequential(new FeedToShooter());
-				addSequential(new WaitCommand(4.500));
-				addSequential(new Command(){
-					public boolean isFinished(){
-						return true;
-					}
-					
-					public void execute(){
-						Scheduler.getInstance().removeAll();
-					}
-				});
-			}
-		}**/
-		SmartDashboard.putData("Auto mode command", chooser);
+		// chooser.addDefault("Default Auto", new ExampleCommand());
+		// chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -151,10 +102,6 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		
-		for (Command com : perma_commands){
-			if (!com.isRunning()) com.start();
-		}
 	}
 
 	/**
@@ -169,7 +116,7 @@ public class Robot extends IterativeRobot {
 		GearsPlacer.getInstance().status();
 		//Shifts.getInstance().status();
 		Shooter.getInstance().status();
-		test_command = (Command) chooser.getSelected();
+
 	}
 
 	/**

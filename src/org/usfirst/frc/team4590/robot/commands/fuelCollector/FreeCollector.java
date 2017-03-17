@@ -4,6 +4,9 @@ import org.usfirst.frc.team4590.robot.subsystems.FuelCollector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Do you really need a fucking explanation?
+ */
 public class FreeCollector extends Command {
 
 	public FreeCollector() {
