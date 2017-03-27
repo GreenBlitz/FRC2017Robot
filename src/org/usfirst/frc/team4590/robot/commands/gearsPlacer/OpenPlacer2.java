@@ -11,8 +11,14 @@ public class OpenPlacer2 extends Command {
 	
 	private boolean m_init = false;
 	
+	private long m_start;
+	
 	public OpenPlacer2() {
 		requires(GearsPlacer.getInstance());
+	}
+	
+	protected void initialize(){
+		m_start = System.currentTimeMillis();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -23,7 +29,7 @@ public class OpenPlacer2 extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return !GearsPlacer.getInstance().isOpen();
+		return !GearsPlacer.getInstance().isOpen() || System.currentTimeMillis() - m_start >= 1000;
 	}
 
 	// Called once after isFinished returns true

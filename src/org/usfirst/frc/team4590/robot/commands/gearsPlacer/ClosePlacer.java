@@ -11,6 +11,8 @@ public class ClosePlacer extends Command {
 
 	private boolean m_init = false;
 	
+	private long m_start;
+	
 	public ClosePlacer() {
 		// Use requires() here to declare subsystem dependencies
 		requires(GearsPlacer.getInstance());
@@ -18,6 +20,7 @@ public class ClosePlacer extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		m_start = System.currentTimeMillis();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -28,12 +31,13 @@ public class ClosePlacer extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return !GearsPlacer.getInstance().isClosed();
+		return !GearsPlacer.getInstance().isClosed() || System.currentTimeMillis() - m_start >= 1000;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		GearsPlacer.getInstance().setPower(0);
+		m_init = false;
 	}
 
 	// Called when another command which requires one or more of the same

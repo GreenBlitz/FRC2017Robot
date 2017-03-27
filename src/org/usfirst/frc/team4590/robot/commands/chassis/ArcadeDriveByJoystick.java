@@ -2,7 +2,10 @@ package org.usfirst.frc.team4590.robot.commands.chassis;
 
 import org.usfirst.frc.team4590.robot.OI;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
+import org.usfirst.frc.team4590.robot.subsystems.Shifts;
+import org.usfirst.frc.team4590.robot.subsystems.Shifts.ShifterState;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,18 +14,23 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArcadeDriveByJoystick extends Command {
 
+	private PowerDistributionPanel pdp;
+	
 	public ArcadeDriveByJoystick() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Chassis.getInstance());
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
+	protected void initialize() {	
+		pdp = new PowerDistributionPanel();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		//System.out.println(OI.getInstance().getMainRightX() + " " + OI.getInstance().getMainLeftY());
 		Chassis.getInstance().arcadeDrive(-OI.getInstance().getMainLeftY(), OI.getInstance().getMainRightX());
+		//if (pdp.getVoltage() <= 7.75){ Shifts.getInstance().setState(ShifterState.POWER); }
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -1,13 +1,14 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.SHOOTER_TALON_A;
-import static org.usfirst.frc.team4590.robot.RobotMap.SHOOTER_TALON_B;
+import static org.usfirst.frc.team4590.robot.RobotMap.*;
 
-import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSpeedByTrigger;
+import org.usfirst.frc.team4590.robot.commands.shooter.FreeShooter;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -74,10 +75,10 @@ public class Shooter extends PIDSubsystem {
 	public void setPower(double power) {
 	
 		System.out.println("Hey");
-		if (power > 0.85)
-			power = 0.85;
-		if (power < -0.85)
-			power = -0.85;
+		if (power > 1)
+			power = 1;
+		if (power < -1)
+			power = -1;
 
 		talon1.set(power);
 	}
@@ -95,7 +96,7 @@ public class Shooter extends PIDSubsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new ShooterSpeedByTrigger());
+		setDefaultCommand(new FreeShooter());
 	}
 
 	protected double returnPIDInput() {

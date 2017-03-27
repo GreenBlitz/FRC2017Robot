@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.commands.shifter;
 
-import static org.usfirst.frc.team4590.robot.subsystems.Shifts.ShifterState.POWER;
 import static org.usfirst.frc.team4590.robot.subsystems.Shifts.ShifterState.SPEED;
+import static org.usfirst.frc.team4590.robot.subsystems.Shifts.ShifterState.POWER;
 
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Shifts;
@@ -32,9 +32,9 @@ public class AutoGearShifter extends Command {
 		velocity = Chassis.getInstance().getSpeed();
 
 		if (velocity > MAX_THRESHOLD) {
-			Shifts.getInstance().setState(POWER);
-		} else if (velocity < MIN_THRESHOLD) {
 			Shifts.getInstance().setState(SPEED);
+		} else if (velocity < MIN_THRESHOLD) {
+			Shifts.getInstance().setState(POWER);
 		}
 
 	}

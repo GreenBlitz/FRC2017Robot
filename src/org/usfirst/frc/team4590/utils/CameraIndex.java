@@ -1,5 +1,5 @@
 package org.usfirst.frc.team4590.utils;
-
+																																															
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public enum CameraIndex {

@@ -12,44 +12,54 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Drives a given distance in a straight line.
  *
- * @param distance
+ * @param m_distance
  *            the distance to drive
  */
 public class DriveStraightByDistance extends Command implements PIDOutput, PIDSource {
 
 	private int timesOnTarget;
 
-	private double distance;
-
+	private double m_distance;
+	
+	private double m_angle;
+	
+	private boolean m_reset;
+	
 	private PIDController drivePID;
-	private double Kp = 0, Ki = 0, Kd = 0;
-
+	private double Kp = 0.7, Ki = 0, Kd = 0;
+	private double P2 = 2.0 / 90.0;
 	/**
 	 * Drives a given in straight line.
 	 * 
 	 * @param distance
 	 *            distance to drive.
 	 */
-	public DriveStraightByDistance(double distance) {
-		// Use requires() here to declare subsystem dependencies
+	
+	public DriveStraightByDistance(double distance, double angle, boolean reset){
 		requires(Chassis.getInstance());
-		this.distance = distance;
-
+		m_distance = distance;
+		m_angle = angle;
+		m_reset = reset;
 		drivePID = new PIDController(Kp, Ki, Kd, this, this);
 
+	}
+	
+	public DriveStraightByDistance(double distance, double angle){
+		this(distance, angle, false);
+	}
+	public DriveStraightByDistance(double distance) {
+		this(distance, 0, true);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Chassis.getInstance().resetAHRS();
+		if (m_reset) Chassis.getInstance().resetAHRS();
 		Chassis.getInstance().resetEncoders();
-		Chassis.getInstance().getPIDController().reset();
-		Chassis.getInstance().getPIDController().setSetpoint(0);
-		Chassis.getInstance().getPIDController().enable();
-
+		
 		drivePID.reset();
-		drivePID.setAbsoluteTolerance(1);
-		drivePID.setSetpoint(distance);
+		drivePID.setAbsoluteTolerance(0.15);
+		drivePID.setSetpoint(-m_distance / 319.185);
+		drivePID.setOutputRange(-0.6, 0.6);
 		drivePID.enable();
 	}
 
@@ -73,11 +83,13 @@ public class DriveStraightByDistance extends Command implements PIDOutput, PIDSo
 		} else {
 			timesOnTarget = 0;
 		}
-		return timesOnTarget > 30;
+		return timesOnTarget > 2;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		drivePID.disable();
+		System.out.println("ended");
 	}
 
 	// Called when another command which requires one or more of the same
@@ -103,6 +115,7 @@ public class DriveStraightByDistance extends Command implements PIDOutput, PIDSo
 
 	@Override
 	public void pidWrite(double output) {
-		Chassis.getInstance().arcadeDrive(output, 0);
+		
+		Chassis.getInstance().arcadeAccDrive(-output, P2 * (m_angle - Chassis.getInstance().getAngle()));
 	}
 }

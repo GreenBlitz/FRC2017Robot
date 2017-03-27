@@ -41,7 +41,7 @@ public class DriveUntilVision extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	System.out.println("Net Updated: " + netUpdated + "    Vision Input: " + visionInput);
-    	return netUpdated && visionInput != -2 && Math.abs(visionInput) < 0.2; 
+    	return netUpdated && visionInput != -2 && Math.abs(visionInput) < 0.5; 
     }
 
     // Called once after isFinished returns true

@@ -7,13 +7,15 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraightByVision extends Command implements PIDOutput,PIDSource {
-	private static final double Kp = 0.7, Ki = 0 , Kd = 0;
+	private static final double Kp = 0.625, Ki = 0 , Kd = 0;
 	
+	private PowerDistributionPanel pdp;
 	
 	private PIDController turnPID = new PIDController(Kp, Ki, Kd, this, this);
 
@@ -32,6 +34,7 @@ public class DriveStraightByVision extends Command implements PIDOutput,PIDSourc
     	turnPID.setSetpoint(0);
     	turnPID.enable();
     	CameraIndex.LIFT.set();
+    	pdp = new PowerDistributionPanel();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -73,14 +76,14 @@ public class DriveStraightByVision extends Command implements PIDOutput,PIDSourc
 
 	@Override
 	public void pidWrite(double output) {
-		if(output > 0.385) output = 0.385;
-		if(output < -0.385) output = -0.385;
-		if(output > 0 && output < 0.31) output = 0.31;
-		if(output < 0 && output > -0.31) output = -0.31;
-		System.out.println("I am writing a new PID value");
+		if(output > 0.3) output = 0.3;
+		if(output < -0.3) output = -0.3;
+		//if(output > 0 && output < 0.2) output = 0.2;
+		//if(output < 0 && output > -0.2) output = -0.2;
+		//System.out.println("I am writing a new PID value");
 		SmartDashboard.putNumber("DRIVE STRAIGHT BY VISION: output", output);
 		
-		Chassis.getInstance().arcadeDrive(0.5, -output);
+		Chassis.getInstance().arcadeDrive(0.46 * 12.0 / Math.min(12.0, pdp.getVoltage()), -output * 12.0 / Math.min(12.0, pdp.getVoltage()));
 		
 	}
 

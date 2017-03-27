@@ -1,17 +1,36 @@
 
 package org.usfirst.frc.team4590.robot;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.usfirst.frc.team4590.robot.commands.auto.HopperAutoA2;
+import org.usfirst.frc.team4590.robot.commands.auto.HopperAutoB2;
+import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
+import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoGuyada;
+import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoGuyde;
+import org.usfirst.frc.team4590.robot.commands.chassis.BasicGearsAutoJoel;
+import org.usfirst.frc.team4590.robot.commands.chassis.DriveStraightByDistance;
+import org.usfirst.frc.team4590.robot.commands.feeder.FeedToShooter;
+import org.usfirst.frc.team4590.robot.commands.fuelCollector.CollectFuel;
+import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetSpeed;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Climber;
 import org.usfirst.frc.team4590.robot.subsystems.Feeder;
 import org.usfirst.frc.team4590.robot.subsystems.FuelCollector;
 import org.usfirst.frc.team4590.robot.subsystems.GearsPlacer;
 import org.usfirst.frc.team4590.robot.subsystems.Shifts;
+import org.usfirst.frc.team4590.robot.subsystems.Shifts.ShifterState;
+import org.usfirst.frc.team4590.utils.MatchData;
 import org.usfirst.frc.team4590.robot.subsystems.Shooter;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,16 +44,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static OI oi;
+	private List<Command> perma_commands = new LinkedList<Command>();
+
+	private static Robot instance;
+
+	public static Command test_command;
+
+	public static Robot getInstance() {
+		return instance;
+	}
+
+	public void addPermaCommand(Command com) {
+		perma_commands.add(com);
+	}
 
 	Command autonomousCommand;
-	SendableChooser chooser;
+	SendableChooser<Command> m_autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		instance = this;
 		Chassis.init();
 		Climber.init();
 		GearsPlacer.init();
@@ -43,10 +75,10 @@ public class Robot extends IterativeRobot {
 		Feeder.init();
 		Shooter.init();
 		OI.init();
-		chooser = new SendableChooser();
-		// chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
+		cam.setResolution(320, 240);
+		cam.setFPS(18);
+		MatchData.getInstance().robotInit();
 	}
 
 	/**
@@ -74,18 +106,8 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = (Command) chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		Shifts.getInstance().setState(ShifterState.POWER);
+		MatchData.getInstance().autonomusInit();
 	}
 
 	/**
@@ -96,12 +118,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		MatchData.getInstance().teleopInit();
+		
 	}
 
 	/**
@@ -110,13 +128,12 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		Chassis.getInstance().status();
-	//	Climber.getInstance().status();
-		//Feeder.getInstance().status();
-		//FuelCollector.getInstance().status();
+		// Climber.getInstance().status();
+		// Feeder.getInstance().status();
+		// FuelCollector.getInstance().status();
 		GearsPlacer.getInstance().status();
-		//Shifts.getInstance().status();
+		// Shifts.getInstance().status();
 		Shooter.getInstance().status();
-
 	}
 
 	/**

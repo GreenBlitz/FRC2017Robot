@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team4590.robot.commands.feeder;
 
 import org.usfirst.frc.team4590.robot.OI;
@@ -12,9 +11,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class FeedToShooter extends Command {
 
-	public FeedToShooter() {
+	private double m_multi;
+	
+	public FeedToShooter(double multi) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Feeder.getInstance());
+		
+		m_multi = multi;
+	}
+	
+	public FeedToShooter(){
+		this(1);
 	}
 
 	// Called just before this Command runs the first time
@@ -24,7 +31,7 @@ public class FeedToShooter extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		//if (Shooter.getInstance().onTarget()) {
-			Feeder.getInstance().setPower(OI.getInstance().getMainTriggerL());
+			Feeder.getInstance().setPower(OI.getInstance().getSubPOVDown() ? -m_multi : m_multi);
 		//}
 	}
 

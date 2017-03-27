@@ -11,17 +11,17 @@ public class RobotMap {
 	 *Solenoid Ports; for more ports see {@link RobotMap} 
 	 */
     public static final int //solenoids
-    						BS_DOUBLE_SOL_FORE 	= 6,
+    						BS_DOUBLE_SOL_FORE 	= 5,
     						BS_DOUBLE_SOL_REV 	= 4;
     /**
      * Encoders Ports; for more ports see {@link RobotMap}
      */
     public static final int // encoders
-    						CHASSIS_ENCODER_LEFT_A = 0,
-    						CHASSIS_ENCODER_LEFT_B = 1,
+    						CHASSIS_ENCODER_LEFT_A = 2,
+    						CHASSIS_ENCODER_LEFT_B = 3,
     						
-    						CHASSIS_ENCODER_RIGHT_A = 2,
-    						CHASSIS_ENCODER_RIGHT_B = 3,
+    						CHASSIS_ENCODER_RIGHT_A = 0,
+    						CHASSIS_ENCODER_RIGHT_B = 1,
     						
     						SHOOTER_ENCODER_A = 0,
     						SHOOTER_ENCODER_B = 0,
@@ -49,7 +49,8 @@ public class RobotMap {
     						
     						CLIMBER_TALON = 7,
     						
-    						FEEDER_TALON = 10;
+    						FEEDER_TALON = 10,
+    						HELPER_TALON = 13;
     
     /**						
      * Gyros Ports; for more ports see {@link RobotMap}
@@ -67,5 +68,6 @@ public class RobotMap {
      * Joystick Ports; for more ports see {@link RobotMap}
      */
     public static final int
-    						JOYSTICK_MAIN = 0;
+    						JOYSTICK_MAIN = 0,
+    						JOYSTICK_SECOND = 2;
 }

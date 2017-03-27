@@ -7,11 +7,14 @@ import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_RIGHT_A;
 import static org.usfirst.frc.team4590.robot.RobotMap.CHASSIS_ENCODER_RIGHT_B;
 
 import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByJoystick;
+import org.usfirst.frc.team4590.utils.PIDGetter;
+import org.usfirst.frc.team4590.utils.PIDSlave;
 import org.usfirst.frc.team4590.utils.ThreeCIMShifter;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -24,26 +27,42 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Chassis extends PIDSubsystem {
 	
-
+	
 	private static double kP = 0, kI = 0, kD = 0;
-	private Encoder encLeft, encRight;
-	private AHRS ahrs;
-	private ThreeCIMShifter drive;
-	private boolean arcadeMode = true;
+	private Encoder m_encLeft, m_encRight;
+	private AHRS m_gyro;
+	private ThreeCIMShifter m_drive;
+	private boolean m_driveSpeed;
+	private PIDSlave m_leftSlave;
+	private PIDSlave m_rightSlave;
+	private double m_multi = 1;
+	private static double MAX_FREE_RPM = 5330;
+	private static double SPEED_GEARS_RATIO = 4.17;
+	private static double POWER_GEARS_RATIO = 11.03;
+	private PowerDistributionPanel m_pdp;
+	//	private boolean arcadeMode = true;
 	private static Chassis instance;
 
+
+	
 	private Chassis() {
 		super("Chassis", kP, kI, kD);
-		encLeft = new Encoder(CHASSIS_ENCODER_LEFT_A, CHASSIS_ENCODER_LEFT_B);
-		encRight = new Encoder(CHASSIS_ENCODER_RIGHT_A, CHASSIS_ENCODER_RIGHT_B);
-		ahrs = new AHRS(SPI.Port.kMXP);
-		drive = new ThreeCIMShifter();
+		m_encLeft = new Encoder(CHASSIS_ENCODER_LEFT_A, CHASSIS_ENCODER_LEFT_B);
+		m_encRight = new Encoder(CHASSIS_ENCODER_RIGHT_A, CHASSIS_ENCODER_RIGHT_B);
+		m_encLeft.setDistancePerPulse(1.0 / 220.5/*83.22485*/);
+		m_encRight.setDistancePerPulse(1.0 / 220.5);
+		m_gyro = new AHRS(SPI.Port.kMXP);
+		PIDGetter leftGetter = (pid) -> m_encLeft.getRate();
+		PIDGetter rightGetter = (pid) -> m_encRight.getRate();
+		m_drive = new ThreeCIMShifter(leftGetter, rightGetter);
+		//m_drive.setControlMode(true);
 		SmartDashboard.putNumber("Chassis__PID(P)", kP);
 		SmartDashboard.putNumber("Chassis__PID(I)", kI);
 		SmartDashboard.putNumber("Chassis__PID(D)", kD);
-		LiveWindow.addSensor("Chassis", "Encoder left", encLeft);
-		LiveWindow.addSensor("Chassis", "Encoder right", encRight);
-		LiveWindow.addSensor("Chassis", "AHRS", ahrs);
+		LiveWindow.addSensor("Chassis", "Encoder left", m_encLeft);
+		LiveWindow.addSensor("Chassis", "Encoder right", m_encRight);
+		m_pdp = new PowerDistributionPanel();
+		//LiveWindow.addSensor("Chassis", "AHRS", ahrs);
 	}
 
 	public static final void init() {
@@ -56,33 +75,33 @@ public class Chassis extends PIDSubsystem {
 
 	// getters for sensors
 	public double getDistance() {
-		return (encLeft.getDistance() - encRight.getDistance()) / 2;
+		return (m_encLeft.getDistance() - m_encRight.getDistance()) / 2;
 	}
 
 	public double getSpeed() {
-		return (encLeft.getRate() - encRight.getRate()) / 2;
+		return (m_encLeft.getRate() - m_encRight.getRate()) / 2;
 	}
 	
 	public double getSpeedL() {
-		return - encRight.getRate();
+		return - m_encRight.getRate();
 	}
 	
 	public double getSpeedR() {
-		return encLeft.getRate();
+		return m_encLeft.getRate();
 	}
 
 	public double getAngle() {
-		return ahrs.getAngle();
+		return m_gyro.getYaw();
 	}
 
 	public double getAccel(char axis) {
 		switch (axis) {
 		case 'x':
-			return ahrs.getWorldLinearAccelX();
+			return m_gyro.getWorldLinearAccelX();
 		case 'y':
-			return ahrs.getWorldLinearAccelY();
+			return m_gyro.getWorldLinearAccelY();
 		case 'z':
-			return ahrs.getWorldLinearAccelZ();
+			return m_gyro.getWorldLinearAccelZ();
 		}
 		System.out.println("Chassis::getAccel - RIP");
 		return -1;
@@ -90,35 +109,41 @@ public class Chassis extends PIDSubsystem {
 
 	// reset methods for sensors
 	public void resetEncoders() {
-		encLeft.reset();
-		encRight.reset();
+		m_encLeft.reset();
+		m_encRight.reset();
 	}
 
 	public void resetAHRS() {
-		ahrs.reset();
+		m_gyro.reset();
 	}
 
 	// drives
 	public void tankDrive(double left, double right) {
-		drive.tankDrive(left, right);
+			//m_drive.tankDrive(m_leftSlave.getValue(), m_rightSlave.getValue());
+		m_drive.tankDrive(left * m_multi, right * m_multi);
 	}
 
 	public void arcadeDrive(double forward, double side) {
-		drive.arcadeDrive((arcadeMode ? 1 : -1) * forward, side);
+		m_drive.arcadeDrive(forward * m_multi, side * m_multi);
 	}
 
+	public void arcadeAccDrive(double forward, double side) {
+		double pdp_multi = Math.max(12 / m_pdp.getVoltage(), 1);
+		m_drive.arcadeDrive(forward * m_multi * pdp_multi, side * m_multi * pdp_multi);
+	}
+	
 	// displays status
 	public void status() {
-		SmartDashboard.putNumber("CHASSIS::Power", drive.getPower());
-		SmartDashboard.putNumber("CHASSIS::Speed", getSpeed());
+		SmartDashboard.putNumber("Left Encoder", m_encLeft.getDistance());
+		SmartDashboard.putNumber("Right Encoder", m_encRight.getDistance());
 		SmartDashboard.putNumber("CHASSIS::Angle", getAngle());
 		SmartDashboard.putNumber("CHASSIS::Distance", getDistance());
 		kP = SmartDashboard.getNumber("Chassis__PID(P)", kP);
 		kI = SmartDashboard.getNumber("Chassis__PID(I)", kI);
 		kD = SmartDashboard.getNumber("Chassis__PID(D)", kD);
-	 	SmartDashboard.putNumber("x accel", Chassis.getInstance().getAccel('x'));
-    	SmartDashboard.putNumber("y accel", Chassis.getInstance().getAccel('y'));
-    	SmartDashboard.putNumber("z accel", Chassis.getInstance().getAccel('z'));
+	 	SmartDashboard.putNumber("pitch angle", m_gyro.getPitch());
+    	SmartDashboard.putNumber("yaw angle", m_gyro.getYaw());
+    	SmartDashboard.putNumber("roll angle", m_gyro.getRoll());
 		getPIDController().setPID(kP, kI, kD);
 		/*
 		 * for debugging purposes
@@ -146,9 +171,22 @@ public class Chassis extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		arcadeDrive(0, output);
 	}
+	
+	
+	public void setDriveMode(boolean isSpeed){
+		m_driveSpeed = isSpeed;
+	}
 
-	public void toggleArcade() {
-		arcadeMode = !arcadeMode;
+	public void setDriveMultiplier(double multi) {
+		m_multi = multi;
+	}
+
+	public double getDriveMultiplier(){
+		return m_multi;
+	}
+
+	public void toggleSpeedControl() {
+		m_drive.setControlMode(!m_drive.getControlMode());
 	}
 
 }

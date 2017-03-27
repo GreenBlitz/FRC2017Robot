@@ -1,27 +1,25 @@
 package org.usfirst.frc.team4590.robot;
 
 import static org.usfirst.frc.team4590.robot.RobotMap.JOYSTICK_MAIN;
+import static org.usfirst.frc.team4590.robot.RobotMap.JOYSTICK_SECOND;
 
-import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByJoystick;
-import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveToggle;
-import org.usfirst.frc.team4590.robot.commands.chassis.GearsAutoJoel;
-import org.usfirst.frc.team4590.robot.commands.chassis.TankDriveByJoystick;
-import org.usfirst.frc.team4590.robot.commands.chassis.TurnByVision;
-import org.usfirst.frc.team4590.robot.commands.climber.ClimbByTrigger;
+import org.usfirst.frc.team4590.robot.commands.auto.RunAutoCommand;
+import org.usfirst.frc.team4590.robot.commands.auto.TurnToGoalByVision;
+import org.usfirst.frc.team4590.robot.commands.chassis.DriveStraightByVision;
+import org.usfirst.frc.team4590.robot.commands.chassis.SetDriveMultiplier;
+import org.usfirst.frc.team4590.robot.commands.chassis.ToggleSpeedControl;
 import org.usfirst.frc.team4590.robot.commands.feeder.FeedToShooter;
 import org.usfirst.frc.team4590.robot.commands.fuelCollector.CollectFuel;
+import org.usfirst.frc.team4590.robot.commands.fuelCollector.FreeCollector;
 import org.usfirst.frc.team4590.robot.commands.gearsPlacer.ClosePlacer;
 import org.usfirst.frc.team4590.robot.commands.gearsPlacer.OpenPlacer2;
-import org.usfirst.frc.team4590.robot.commands.gearsPlacer.PlaceGear;
-import org.usfirst.frc.team4590.robot.commands.shifter.ValveSetState;
-import org.usfirst.frc.team4590.robot.commands.shooter.FreeShooter;
-import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetSpeed;
-import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetValue;
+import org.usfirst.frc.team4590.robot.commands.shifter.ValveToggleState;
+import org.usfirst.frc.team4590.robot.commands.shooter.ShooterSetSpeedCopy;
+import org.usfirst.frc.team4590.robot.commands.utils.MoveCross;
 import org.usfirst.frc.team4590.utils.SmartJoystick;
 import org.usfirst.frc.team4590.utils.SmartJoystick.JoystickAxis;
 import org.usfirst.frc.team4590.utils.SmartJoystick.JoystickBinding;
-
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team4590.utils.SwitchCamera;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -29,10 +27,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class OI {
 
+	
 	private SmartJoystick mainJS;
 	private SmartJoystick subJS;
 	private static OI instance;
 
+	private static final double JOYSTICK_DEADZONE = 0.165;//0.145;
+	
 	/*
 	 * private JoystickButton mainA = mainJS.getButton(JoystickBinding.A);
 	 * private JoystickButton mainB = mainJS.getButton(JoystickBinding.B);
@@ -42,77 +43,39 @@ public class OI {
 	 * TODO Shooter , A = Activate Climber B = Collect Fuel X = Shooter Y =
 	 */
 	private OI() {
-		mainJS = new SmartJoystick();
-		subJS = new SmartJoystick();
-		SmartJoystick stick1 = new SmartJoystick(JOYSTICK_MAIN);
-		stick1.getButton(JoystickBinding.START).whenPressed(new MainJoystickInit(stick1));
-		stick1.getButton(JoystickBinding.BACK).whenPressed(new SubJoystickInit(stick1));
-	}
+		mainJS = new SmartJoystick(JOYSTICK_MAIN);
+		subJS = new SmartJoystick(JOYSTICK_SECOND);
 
-	private class MainJoystickInit extends Command{
-
-		private SmartJoystick m_joystick;
-
-		protected MainJoystickInit(SmartJoystick stick){
-			m_joystick = stick;
-		}
-
-		@Override
-		protected boolean isFinished() {
-			return true;
-		}
-
-		protected void execute(){
-			m_joystick.setAxis(JoystickAxis.LEFT_X, 0);
-			m_joystick.setAxis(JoystickAxis.LEFT_Y, 1);
-			m_joystick.setAxis(JoystickAxis.RIGHT_X, 4);
-			m_joystick.setAxis(JoystickAxis.RIGHT_Y, 5);
-			m_joystick.setAxisInverted(JoystickAxis.LEFT_Y, true);
-			m_joystick.setAxisInverted(JoystickAxis.RIGHT_Y, true);
-			m_joystick.getButton(SmartJoystick.JoystickBinding.A).whenPressed(new ArcadeDriveByJoystick());
-			//m_joystick.getButton(SmartJoystick.JoystickBinding.B).whenPressed(new PlaceGear());
-			//m_joystick.getButton(SmartJoystick.JoystickBinding.B).whenPressed(new ArcadeDriveToggle());
-			m_joystick.getButton(SmartJoystick.JoystickBinding.X).whenPressed(new TankDriveByJoystick());
-			m_joystick.getButton(SmartJoystick.JoystickBinding.Y).whenPressed(new ValveSetState());
-			m_joystick.getButton(SmartJoystick.JoystickBinding.L1).whenPressed(new CollectFuel());
-			mainJS = m_joystick;
-		}
-
+		mainJS.setAxis(JoystickAxis.LEFT_X, 0);
+		mainJS.setAxis(JoystickAxis.LEFT_Y, 1);
+		mainJS.setAxis(JoystickAxis.RIGHT_X, 4);
+		mainJS.setAxis(JoystickAxis.RIGHT_Y, 5);
+		mainJS.setAxisInverted(JoystickAxis.LEFT_Y, true);
+		mainJS.setAxisInverted(JoystickAxis.RIGHT_Y, true);
+		mainJS.getButton(JoystickBinding.A).whenPressed(new OpenPlacer2());
+		mainJS.getButton(JoystickBinding.B).whenPressed(new ClosePlacer());
+		mainJS.getButton(JoystickBinding.L1).whileHeld(new DriveStraightByVision());
+		mainJS.getButton(JoystickBinding.Y).whenPressed(new ValveToggleState());
+		mainJS.getButton(JoystickBinding.R1).whileHeld(new CollectFuel());
+		mainJS.getButton(JoystickBinding.START).whenPressed(new SetDriveMultiplier(0.5, false));
+		mainJS.getButton(JoystickBinding.BACK).whenPressed(new ToggleSpeedControl());
+		mainJS.getButton(JoystickBinding.X).whenPressed(new SwitchCamera());
 		
+		subJS.getButton(JoystickBinding.L1).whileHeld(new CollectFuel());
+		subJS.getButton(JoystickBinding.START).whileHeld(new FeedToShooter());
+		subJS.getButton(JoystickBinding.R1).whileHeld(new ShooterSetSpeedCopy(2020));
+		subJS.getButton(JoystickBinding.A).whenPressed(new MoveCross(0, 3));
+		subJS.getButton(JoystickBinding.Y).whenPressed(new MoveCross(0, -3));
+		subJS.getButton(JoystickBinding.B).whenPressed(new MoveCross(-4, 0));
+		subJS.getButton(JoystickBinding.X).whenPressed(new MoveCross(4, 0));
+		subJS.getButton(JoystickBinding.BACK).whileHeld(new FreeCollector());
+		subJS.getButton(JoystickBinding.L3).whileHeld(new TurnToGoalByVision());
+		subJS.getButton(JoystickBinding.R3).whileHeld(new RunAutoCommand());
 	}
-
-	private class SubJoystickInit extends Command{
-
-		private SmartJoystick m_joystick;
-
-		protected SubJoystickInit(SmartJoystick stick){
-			m_joystick = stick;
-		}
-
-		@Override
-		protected boolean isFinished() {
-			return true;
-		}
-
-		protected void execute(){
-			
-			m_joystick.setAxis(JoystickAxis.LEFT_X, 0);
-			m_joystick.setAxis(JoystickAxis.LEFT_Y, 1);
-			m_joystick.setAxis(JoystickAxis.RIGHT_X, 4);
-			m_joystick.setAxis(JoystickAxis.RIGHT_Y, 5);
-			m_joystick.setAxisInverted(JoystickAxis.LEFT_Y, true);
-			m_joystick.setAxisInverted(JoystickAxis.RIGHT_Y, true);
-			m_joystick.getButton(SmartJoystick.JoystickBinding.A).whenPressed(new GearsAutoJoel(true, 0.6, 0.5));
-			m_joystick.getButton(SmartJoystick.JoystickBinding.X).whileHeld(new FeedToShooter());
-			m_joystick.getButton(SmartJoystick.JoystickBinding.B).whileHeld(new ClimbByTrigger());
-			//m_joystick.getButton(SmartJoystick.JoystickBinding.X).whenPressed(new TurnByVision());
-			m_joystick.getButton(SmartJoystick.JoystickBinding.Y).whenPressed(new GearsAutoJoel(false, 0.6, 0.5));
-			m_joystick.getButton(SmartJoystick.JoystickBinding.R1).whileHeld(new CollectFuel());
-			m_joystick.getButton(SmartJoystick.JoystickBinding.L1).whenPressed(new ShooterSetSpeed(2100)); //2100 - 200
-			m_joystick.getButton(SmartJoystick.JoystickBinding.L3).whenPressed(new FreeShooter());
-			mainJS = m_joystick;
-		}
-
+	
+	public boolean getSubPOVDown(){
+		int a = subJS.getRawJoystick().getPOV();
+		return a >= 135 && a <= 225;
 	}
 
 	public static final void init() {
@@ -124,27 +87,63 @@ public class OI {
 	}
 
 	public double getMainLeftY() {
-		return mainJS.getAxisValue(JoystickAxis.LEFT_Y);
+		return Math.abs(mainJS.getAxisValue(JoystickAxis.LEFT_Y)) < JOYSTICK_DEADZONE ? 0 : mainJS.getAxisValue(JoystickAxis.LEFT_Y);
 	}
 
 	public double getMainLeftX() {
-		return mainJS.getAxisValue(JoystickAxis.LEFT_X);
+		return Math.abs(mainJS.getAxisValue(JoystickAxis.LEFT_X)) < JOYSTICK_DEADZONE ? 0 : mainJS.getAxisValue(JoystickAxis.LEFT_X);
 	}
 
 	public double getMainRightY() {
-		return mainJS.getAxisValue(JoystickAxis.RIGHT_Y);
+		return Math.abs(mainJS.getAxisValue(JoystickAxis.RIGHT_Y)) < JOYSTICK_DEADZONE ? 0 : mainJS.getAxisValue(JoystickAxis.RIGHT_Y);
 	}
 
 	public double getMainRightX() {
-		return mainJS.getAxisValue(JoystickAxis.RIGHT_X);
+		return Math.abs(mainJS.getAxisValue(JoystickAxis.RIGHT_X)) < JOYSTICK_DEADZONE ? 0 : mainJS.getAxisValue(JoystickAxis.RIGHT_X);
 	}
-
-	public boolean getMainR1() {
-		return mainJS.getButton(JoystickBinding.R1).get();
+	
+	public double getMainNormalLeftY() {
+		double y = getMainLeftY();
+		double x = getMainLeftX();
+		
+		if (x == 0) return y;
+		
+		if (Math.abs(x) > Math.abs(y)){
+			double vec = Math.sqrt(x * x + y * y);
+			
+			double vecForAngle = vec / Math.abs(x);
+			
+			return vecForAngle * y;
+		} else {
+			double vec = Math.sqrt(x * x + y * y);
+			
+			double vecForAngle = vec / Math.abs(y);
+			
+			return vecForAngle * y;
+		}
+		
 	}
-
-	public boolean getMainL1() {
-		return mainJS.getButton(JoystickBinding.L1).get();
+	
+	public double getMainNormalRightX() {
+		double y = getMainRightY();
+		double x = getMainRightX();
+		
+		if (y == 0) return x;
+		
+		if (Math.abs(y) > Math.abs(x)){
+			double vec = Math.sqrt(x * x + y * y);
+			
+			double vecForAngle = vec / Math.abs(y);
+			
+			return vecForAngle * x;
+		} else {
+			double vec = Math.sqrt(x * x + y * y);
+			
+			double vecForAngle = vec / Math.abs(x);
+			
+			return vecForAngle * x;
+		}
+		
 	}
 
 	public double getMainTriggerL() {

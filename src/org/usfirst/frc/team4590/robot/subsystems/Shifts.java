@@ -2,6 +2,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import java.util.Random;
 
+import org.usfirst.frc.team4590.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,7 +20,7 @@ public class Shifts extends Subsystem {
 	private DoubleSolenoid m_doubleSol;
 	
 	public static enum ShifterState {
-		SPEED(DoubleSolenoid.Value.kForward), POWER(DoubleSolenoid.Value.kReverse);
+		POWER(DoubleSolenoid.Value.kForward), SPEED(DoubleSolenoid.Value.kReverse);
 
 		private DoubleSolenoid.Value value;
 
@@ -34,7 +36,7 @@ public class Shifts extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private Shifts() {
-		m_doubleSol = new DoubleSolenoid(4,5);
+		m_doubleSol = new DoubleSolenoid(RobotMap.BS_DOUBLE_SOL_FORE,RobotMap.BS_DOUBLE_SOL_REV);
 		//setState(ShifterState.SPEED);
 	}
 
@@ -61,7 +63,11 @@ public class Shifts extends Subsystem {
 		if (m_doubleSol.get().ordinal()!=0)
 		setState(ShifterState.values()[2 - m_doubleSol.get().ordinal()]);
 		else
-			setState(ShifterState.POWER);
+			setState(ShifterState.SPEED);
+	}
+	
+	public boolean isOpened(){
+		return m_doubleSol.get() == Value.kForward;
 	}
 
 

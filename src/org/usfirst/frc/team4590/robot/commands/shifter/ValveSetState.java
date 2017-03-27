@@ -1,21 +1,27 @@
 package org.usfirst.frc.team4590.robot.commands.shifter;
 
 import org.usfirst.frc.team4590.robot.subsystems.Shifts;
+import org.usfirst.frc.team4590.robot.subsystems.Shifts.ShifterState;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changes the shift to the opposite value. Example: SPEED -> POWER
  */
 public class ValveSetState extends Command {
 
-	public ValveSetState() {
+	private ShifterState m_state;
+	
+	public ValveSetState(ShifterState state) {
 		requires(Shifts.getInstance());
+		m_state = state;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Shifts.getInstance().toggleState();
+		Shifts.getInstance().setState(m_state);
+		SmartDashboard.putBoolean("gears_state", Shifts.getInstance().isOpened());
 	}
 
 	// Called repeatedly when this Command is scheduled to run

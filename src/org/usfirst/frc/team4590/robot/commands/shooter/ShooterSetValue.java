@@ -26,7 +26,7 @@ public class ShooterSetValue extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Shooter.getInstance().setPower(SmartDashboard.getNumber("Shooter::SetSpeed",0));
+		Shooter.getInstance().setPower(speed);
 		Shooter.getInstance().status();
 	}
 

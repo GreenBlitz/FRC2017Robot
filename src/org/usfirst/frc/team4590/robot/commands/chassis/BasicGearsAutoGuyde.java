@@ -11,16 +11,25 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class BasicGearsAutoGuyde extends CommandGroup {
 
 	public BasicGearsAutoGuyde(boolean dir) {
-		addSequential(new DriveStraightByVisionTimed(5500));
-		addSequential(new OpenPlacer2());
 		
-		addSequential(new ArcadeDriveByValues(-0.65, 0, 750));
+		addSequential(new DriveStraightByVisionTimed(5000), 5);
+		addSequential(new OpenPlacer2(), 1);
 		
-		addSequential(new ClosePlacer());
+		addSequential(new StupidDriveStraightByDistance(750), 1.2);
 		
-		addSequential(new ArcadeDriveByValues(0.4590, dir ? 0.45 : -0.45, 1000));
+		//addSequential(new ArcadeDriveByValues(0.60, 0, 700));
+		
+		//addSequential(new ArcadeDriveByValues(-0.75, 0, 800));
+		
+		//addSequential(new ArcadeDriveByValues(0.4590, dir ? 0.45 : -0.45, 900));
 
-		addSequential(new ArcadeDriveByValues(0.4590, 0, 4000));
+		//addSequential(new TurnByAngle(dir ? -32 : 32, 1250));
+		addParallel(new ClosePlacer(), 1);
+		addSequential(new DriveStraightByDistance(-750, dir ? 30 : -30, false), 1.2);
+		
+		addSequential(new DriveStraightByDistance(750, dir ? 70 : -70, false), 1.2);
+		
+		addSequential(new DriveStraightByDistance(5000, dir ? 30 : -30, false), 6);
 		// addSequential(new Command2());
 		// these will run in order.
 

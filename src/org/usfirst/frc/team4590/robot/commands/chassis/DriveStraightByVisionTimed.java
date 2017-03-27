@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraightByVisionTimed extends Command implements PIDOutput,PIDSource {
-	private static final double Kp = 0.7, Ki = 0 , Kd = 0;
+	private static final double Kp = 0.625, Ki = 0 , Kd = 0;
 	
 	
 	private PIDController turnPID = new PIDController(Kp, Ki, Kd, this, this);
@@ -21,9 +22,12 @@ public class DriveStraightByVisionTimed extends Command implements PIDOutput,PID
 	
 	private long m_startTime;
 	
+	private PowerDistributionPanel pdp;
+	
     public DriveStraightByVisionTimed(long millis) {
     	requires(Chassis.getInstance());
     	m_millis = millis;
+    	pdp = new PowerDistributionPanel();
     }
 
     // Called just before this Command runs the first time
@@ -77,14 +81,15 @@ public class DriveStraightByVisionTimed extends Command implements PIDOutput,PID
 
 	@Override
 	public void pidWrite(double output) {
-		if(output > 0.385) output = 0.385;
-		if(output < -0.385) output = -0.385;
-		if(output > 0 && output < 0.31) output = 0.31;
-		if(output < 0 && output > -0.31) output = -0.31;
-		System.out.println("I am writing a new PID value");
+		System.out.println("Output: " + output);
+		if(output > 0.3) output = 0.3;
+		if(output < -0.3) output = -0.3;
+		//if(output > 0.1 && output < 0.25) output = 0.25;
+		//if(output < -0.1 && output > -0.25) output = -0.25;
+		System.out.println("Filtered Output: " + output);
 		SmartDashboard.putNumber("DRIVE STRAIGHT BY VISION: output", output);
 		
-		Chassis.getInstance().arcadeDrive(0.67, -output);
+		Chassis.getInstance().arcadeDrive(0.38 * 12.0 / Math.min(12.0, pdp.getVoltage()), -output * 12.0 / Math.min(12.0, pdp.getVoltage()));
 		
 	}
 
