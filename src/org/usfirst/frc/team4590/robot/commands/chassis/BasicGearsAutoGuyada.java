@@ -18,7 +18,7 @@ public class BasicGearsAutoGuyada extends AllianceCommandGroup {
 	}
 	
 	public void onBlue(){
-		addSequential(new DriveStraightByDistance(1600), 2.5);
+	/*	addSequential(new DriveStraightByDistance(1600), 2.5);
 		addSequential(new WaitCommand(0.2));
 		addSequential(new TurnDegrees(dir ? -60 : 60, 1000), 1);
 		addSequential(new DriveStraightByVisionTimed(5000), 5);
@@ -26,20 +26,41 @@ public class BasicGearsAutoGuyada extends AllianceCommandGroup {
 		addSequential(new WaitCommand(0.4));
 		addSequential(new SmartArcadeDriveByValues(0.46, 0, 200));
 		addSequential(new WaitCommand(0.4));
+		addSequential(new TurnDegrees(0, true), 0.1);
 		addSequential(new StupidDriveStraightByDistance(750), 0.8);
 		addParallel(new ClosePlacer(), 1);
 		addSequential(new DriveStraightByDistance(-750, dir ? 60 : -60, false), 0.8);
 		
 		addSequential(new DriveStraightByDistance(750, dir ? 90 : -90, false), 0.8);
 		
-		addSequential(new StupidDriveStraightByDistance(1000, dir ? 60 : -60), 1);
+		addSequential(new StupidDriveStraightByDistance(-1000, dir ? 60 : -60), 1);
 		
 		addSequential(new DriveStraightByDistance(dir ? 7000 : 7500, dir ? 60 : -17.3, false), 7.5);
 		
+		* without absulute degrees
+		*/ 
+		
+		addSequential(new DriveStraightByDistance(1750), 2.5);
+		addSequential(new WaitCommand(0.2));
+		addSequential(new TurnDegrees(dir ? -60 : 60, 1000), 1);
+		addSequential(new DriveStraightByVisionTimed(5000), 5);
+		addSequential(new OpenPlacer2(), 1);
+		addSequential(new WaitCommand(0.4));
+		addSequential(new SmartArcadeDriveByValues(0.46, 0, 200));
+		addSequential(new WaitCommand(0.4));
+		addSequential(new StupidDriveStraightByDistance(750, dir ? -60: 60 , false), 0.8);
+		addParallel(new ClosePlacer(), 1);
+		addSequential(new DriveStraightByDistance(-750, 0, false), 0.8);
+		
+		addSequential(new DriveStraightByDistance(750, dir ? 30 : -30, false), 0.8);
+		
+		addSequential(new StupidDriveStraightByDistance(-1000, 0,false), 1);
+		
+		addSequential(new DriveStraightByDistance(dir ? 7000 : 7500, dir ? 0 : 42.7, false), 7.5);
 	}
 	
 	public void onRed(){
-		addSequential(new DriveStraightByDistance(1600), 2.5);
+		/*addSequential(new DriveStraightByDistance(1600), 2.5);
 		addSequential(new WaitCommand(0.2));
 		addSequential(new TurnDegrees(dir ? -60 : 60, 1000), 1);
 		addSequential(new DriveStraightByVisionTimed(5000), 5);
@@ -53,9 +74,30 @@ public class BasicGearsAutoGuyada extends AllianceCommandGroup {
 		
 		addSequential(new DriveStraightByDistance(750, dir ? 90 : -90, false), 0.8);
 		
-		addSequential(new StupidDriveStraightByDistance(1000, dir ? 60 : -60), 1);
+		addSequential(new StupidDriveStraightByDistance(-1000, dir ? 60 : -60), 1);
 		
 		addSequential(new DriveStraightByDistance(dir ? 7000 : 7500, dir ? 17.3 : -60, false), 7.5);
+		
+		*without absulut degrees
+		*
+		*/
+		addSequential(new DriveStraightByDistance(1750), 2.5);
+		addSequential(new WaitCommand(0.2));
+		addSequential(new TurnDegrees(dir ? -60 : 60, 1000), 1);
+		addSequential(new DriveStraightByVisionTimed(5000), 5);
+		addSequential(new OpenPlacer2(), 1);
+		addSequential(new WaitCommand(0.4));
+		addSequential(new SmartArcadeDriveByValues(0.46, 0, 200));
+		addSequential(new WaitCommand(0.4));
+		addSequential(new StupidDriveStraightByDistance(750,dir ? -60 : 60,false), 1);
+		addParallel(new ClosePlacer(), 1);
+		addSequential(new DriveStraightByDistance(-750,0, false), 0.8);
+		
+		addSequential(new DriveStraightByDistance(750, dir ? 30 : -30, false), 0.8);
+		
+		addSequential(new StupidDriveStraightByDistance(-1000, 0,false ), 1);
+		
+		addSequential(new DriveStraightByDistance(dir ? 7000 : 7500, dir ?-42.7: 0, false), 7.5);
 		
 	}
 }

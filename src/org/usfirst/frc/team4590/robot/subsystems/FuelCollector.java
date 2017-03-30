@@ -43,6 +43,7 @@ public class FuelCollector extends Subsystem {
 	}
 	
 	public boolean foundBall(){
+		System.out.println(sensor.getVoltage());
 		return sensor.getVoltage() > 0.6;
 	}
 

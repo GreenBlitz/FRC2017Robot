@@ -19,6 +19,10 @@ import org.usfirst.frc.team4590.robot.commands.utils.MoveCross;
 import org.usfirst.frc.team4590.utils.SmartJoystick;
 import org.usfirst.frc.team4590.utils.SmartJoystick.JoystickAxis;
 import org.usfirst.frc.team4590.utils.SmartJoystick.JoystickBinding;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+
 import org.usfirst.frc.team4590.utils.SwitchCamera;
 
 /**
@@ -70,7 +74,19 @@ public class OI {
 		subJS.getButton(JoystickBinding.X).whenPressed(new MoveCross(4, 0));
 		subJS.getButton(JoystickBinding.BACK).whileHeld(new FreeCollector());
 		subJS.getButton(JoystickBinding.L3).whileHeld(new TurnToGoalByVision());
-		subJS.getButton(JoystickBinding.R3).whileHeld(new RunAutoCommand());
+		subJS.getButton(JoystickBinding.R3).whenPressed(new RunAutoCommand());
+		subJS.getButton(JoystickBinding.R3).whenReleased(new Command() {
+			
+			@Override
+			protected boolean isFinished() {
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			protected void end(){
+				Scheduler.getInstance().removeAll();
+			}
+		});
 	}
 	
 	public boolean getSubPOVDown(){

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class BeNiceToShooter extends CommandGroup {
 	public BeNiceToShooter(double rpm){
-		addSequential(new ShooterSetValue(0.5), 1);
+		addSequential(new ShooterSetValue(0.5), 0.4);
 		addSequential(new ShooterSetSpeedCopy(rpm));
 	}
 }

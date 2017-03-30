@@ -29,7 +29,7 @@ public class CollectFuelBySensor extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (FuelCollector.getInstance().foundBall()) m_lastFound = System.currentTimeMillis();
-		if (System.currentTimeMillis() - m_lastFound < 100){
+		if (System.currentTimeMillis() - m_lastFound < 1000){
 			FuelCollector.getInstance().setPower(-1);
 			SmartDashboard.putBoolean("waka waka", true);
 		} else {  

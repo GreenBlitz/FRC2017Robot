@@ -24,7 +24,7 @@ public class BasicGearsAutoGuyada2 extends CommandGroup {
 		addSequential(new WaitCommand(0.7));
 		addSequential(new SmartArcadeDriveByValues(0.46, 0, 500));
 		addSequential(new WaitCommand(0.7));
-		addSequential(new StupidDriveStraightByDistance(750), 1.2);
+		addSequential(new StupidDriveStraightByDistance(750, 60 ,false), 1.2);
 		
 		//addSequential(new ArcadeDriveByValues(0.60, 0, 700));
 		
